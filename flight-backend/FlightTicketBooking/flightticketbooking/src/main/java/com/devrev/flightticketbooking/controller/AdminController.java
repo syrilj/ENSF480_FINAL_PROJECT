@@ -168,19 +168,11 @@ public class AdminController {
 
 
 
-	@GetMapping("/admin_view_booking_details")
-	public ResponseEntity<String> showSearchBookings() {
-		LOGGER.info("Start");
 
-		// Additional logic related to showing booking details can be added here if needed
-
-		LOGGER.info("End");
-		return ResponseEntity.ok("Viewing booking details as an admin");
-	}
 
 
 	@PostMapping("/admin_view_booking_details")
-	public ResponseEntity<List<Bookings>> showBookings(@SessionAttribute("admin") Admin admin) throws ParseException {
+	public ResponseEntity<List<Bookings>> showBookings() throws ParseException {
 		LOGGER.info("Start");
 
 		List<Bookings> adminBookingList = fservice.getAdminBooking_details();
@@ -202,7 +194,7 @@ public class AdminController {
 	}
 
 	@PostMapping("/logout")
-	public ResponseEntity<String> logoutAdmin(@SessionAttribute("admin") Admin admin, HttpSession session, SessionStatus status) {
+	public ResponseEntity<String> logoutAdmin( HttpSession session, SessionStatus status) {
 		status.setComplete();
 		session.removeAttribute("admin");
 		return ResponseEntity.ok("Logout successful");

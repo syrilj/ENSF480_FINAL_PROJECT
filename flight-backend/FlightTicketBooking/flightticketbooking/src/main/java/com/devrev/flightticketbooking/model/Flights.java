@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Flights {
+	// Use the strategy
+	private SeatMapStrategy ordinarySeatMapStrategy = new OrdinarySeatMapStrategy();
+	private SeatMapStrategy comfortSeatMapStrategy = new ComfortSeatMapStrategy();
+	private SeatMapStrategy businessClassSeatMapStrategy = new BusinessClassSeatMapStrategy();
+
 
 	int e_seats_left;
 
@@ -141,25 +146,13 @@ public class Flights {
 		this.status = status;
 	}
 
-
+//Strategy design pattern
 	public List<String> getSeatMap() {
 		List<String> seatMap = new ArrayList<>();
 
-		// Add Ordinary seats
-		for (int i = 0; i < e_seats_left; i++) {
-			seatMap.add("Ordinary");
-		}
-
-		// Add Comfort seats
-
-		for (int i = 0; i < c_seats_left; i++) {
-			seatMap.add("Comfort");
-		}
-
-		// Add Business-Class seats
-		for (int i = 0; i < b_seats_left; i++) {
-			seatMap.add("Business-Class");
-		}
+		seatMap.addAll(ordinarySeatMapStrategy.generateSeatMap(e_seats_left));
+		seatMap.addAll(comfortSeatMapStrategy.generateSeatMap(c_seats_left));
+		seatMap.addAll(businessClassSeatMapStrategy.generateSeatMap(b_seats_left));
 
 		return seatMap;
 	}

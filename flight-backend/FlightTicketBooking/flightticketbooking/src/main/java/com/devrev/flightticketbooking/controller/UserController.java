@@ -153,14 +153,27 @@ public class UserController {
 		}
 	}
 
-
+//does not work need fixing
 	@GetMapping("/user_bookings")
-	public ResponseEntity<List<Bookings>> showSearchBookings(@RequestParam String username) throws ParseException {
+	public ResponseEntity<?> showUserBookings(@RequestParam String username) {
 		LOGGER.info("Start");
-		List<Bookings> bookingList = fservice.getUserBooking_details(username);
-		LOGGER.info("End");
-		return ResponseEntity.ok(bookingList);
+
+		try {
+			List<Bookings> bookingList = fservice.getUserBooking_details(username);
+
+			if (bookingList.isEmpty()) {
+				LOGGER.info("No bookings found for user: {}", username);
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No bookings found for the user: " + username);
+			}
+
+			LOGGER.info("End");
+			return ResponseEntity.ok(bookingList);
+		} catch (ParseException e) {
+			LOGGER.error("Error parsing date in user bookings.", e);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error retrieving user bookings.");
+		}
 	}
+
 
 	@PostMapping("/user_bookings")
 	public ResponseEntity<Map<String, Object>> showUserBookings(@RequestBody Map<String, String> bookingData) throws ParseException {
@@ -278,7 +291,7 @@ public class UserController {
 		Map<String, Float> seatPrices = new HashMap<>();
 		seatPrices.put("Ordinary", flight.getE_seat_price());
 		seatPrices.put("Comfort", flight.getB_seat_price() * 1.4f); // Assuming Comfort seat is 40% more than Ordinary
-		seatPrices.put("Business-Class", flight.getB_seat_price() * 2.0f); // Assuming Business-Class is more than double
+		seatPrices.put("Business", flight.getB_seat_price() * 2.0f); // Assuming Business-Class is more than double
 
 		Map<String, Object> response = new HashMap<>();
 		response.put("seatMap", seatMap);
