@@ -1,46 +1,34 @@
-import React, { Component } from "react";
-import "./styles.css";
-import CustomInput from "./componets/CustomInput";
-import Button from "./componets/Button";
+import React, { useState } from 'react';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import NavBar from './components/NavBar';
 
-export default class App extends Component {
-  state = {
-    email: "",
-    password: ""
+function App() {
+  const [currentPage, setCurrentPage] = useState('home');
+  const [userType, setUserType] = useState(null);
+
+  const handleLogin = (type) => {
+    setUserType(type);
+    setCurrentPage('home'); // Redirect to home after login
   };
 
-  handleChange = e => {
-    this.setState({ [e.currentTarget.id]: e.currentTarget.value });
+  const renderPage = () => {
+    switch (currentPage) {
+      case 'home':
+        return <Home userType={userType} />;
+      case 'login':
+        return <Login onLogin={handleLogin} />;
+      default:
+        return <Home userType={userType} />;
+    }
   };
 
-  render() {
-    return (
-        <div className="App">
-          <form className="form">
-            <CustomInput
-                labelText="Email"
-                id="email"
-                formControlProps={{
-                  fullWidth: true
-                }}
-                handleChange={this.handleChange}
-                type="text"
-            />
-            <CustomInput
-                labelText="Password"
-                id="password"
-                formControlProps={{
-                  fullWidth: true
-                }}
-                handleChange={this.handleChange}
-                type="password"
-            />
-
-            <Button type="button" color="primary" className="form__custom-button">
-              Log in
-            </Button>
-          </form>
-        </div>
-    );
-  }
+  return (
+    <div>
+      <NavBar onPageChange={setCurrentPage} />
+      {renderPage()}
+    </div>
+  );
 }
+
+export default App;
