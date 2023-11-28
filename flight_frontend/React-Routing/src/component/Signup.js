@@ -1,34 +1,42 @@
 import React, { useState } from 'react';
-
+import axios from "axios";
 const SignUpForm = () => {
   const [formData, setFormData] = useState({
-    u_name: '',
-    u_gender: '',
-    u_address: '',
-    u_email_id: '',
-    u_contact: '',
-    u_username: '',
-    u_password: '',
+    u_name: "",
+    u_gender: "",
+    u_address: "",
+    u_email_id: "",
+    u_contact: "",
+    u_username: "",
+    u_password: "",
   });
 
-  const [successMessage, setSuccessMessage] = useState('');
-  const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState("");
+  const [error, setError] = useState("");
 
   const onInputChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    // Add your form submission logic here
+    try {
+      const response = await axios.post("http://localhost:8081/api/user/user_register", formData);
 
-    // Example: Display success message for demonstration
-    setSuccessMessage('Registration successful!');
-    setError('');
+      if (response.status === 200) {
+        setSuccessMessage("Your registration is successful. Use your credentials for login!");
+        setError("");
+      } else {
+        setSuccessMessage("");
+        setError("Registration failed. Please try again.");
+      }
+    } catch (error) {
+      setSuccessMessage("");
+      setError("Error during registration. Please try again.");
+      console.error("Error during registration:", error);
+    }
   };
+
 
   return (
     <section className="flex items-center justify-center h-screen">
