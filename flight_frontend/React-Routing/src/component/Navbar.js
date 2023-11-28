@@ -5,7 +5,7 @@ function Navbar() {
   return (
     <nav class="flex px-4 border-b md:shadow-lg items-center relative">
         <div class="text-lg font-bold md:py-0 py-4">
-            React Routing
+            480- Software Principles
         </div>
         <ul class="md:px-2 ml-auto md:flex md:space-x-2 absolute md:relative top-full left-0 right-0">
             <NavLink to={"/"}>
