@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-export default function LoginForm() {
+const LoginForm = () => {
     let navigate = useNavigate();
 
     const [formData, setFormData] = useState({
@@ -11,6 +11,7 @@ export default function LoginForm() {
     });
 
     const { u_username, u_password } = formData;
+    const [error, setError] = useState("");
 
     const onInputChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -21,16 +22,14 @@ export default function LoginForm() {
         try {
             const response = await axios.post("http://localhost:8081/api/user/user_login", formData);
 
-            if (response.status === 200) {
-                // Redirect to user_rights page or any other page on successful login
+            if (response.data.status === "success") {
                 console.log("Login successful");
-                navigate("/user_rights"); // Replace with the actual route
+                navigate("/user_rights"); // Redirect to user_rights on successful login
             } else {
-                // Handle error (if needed)
-                console.error("Login failed");
+                setError(response.data.message);
             }
         } catch (error) {
-            // Handle error (if needed)
+            setError("Error during login. Please try again!");
             console.error("Error during login:", error);
         }
     };
@@ -68,6 +67,7 @@ export default function LoginForm() {
                                 onChange={(e) => onInputChange(e)}
                             />
                         </div>
+                        {error && <p style={{ color: "red", marginTop: "10px" }}>{error}</p>}
                         <button type="submit" className="btn btn-outline-primary">
                             Login
                         </button>
@@ -79,4 +79,6 @@ export default function LoginForm() {
             </div>
         </div>
     );
-}
+};
+
+export default LoginForm;
