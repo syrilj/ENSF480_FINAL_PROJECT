@@ -1,6 +1,46 @@
 import React from 'react';
 
 function Signup() {
+    /*const [formData, setFormData] = useState({
+      name: '',
+      gender: '',
+      address: '',
+      email: '',
+      contact: '',
+      username: '',
+      password: '',
+    });
+  
+    const handleChange = (e) => {
+      setFormData({ ...formData, [e.target.id]: e.target.value });
+    };
+  
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+  
+      try {
+        const response = await fetch('http://your-backend-url/api/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+  
+        if (response.ok) {
+          // Registration successful
+          console.log('User registered successfully');
+          // Redirect or perform any other actions as needed
+        } else {
+          // Registration failed
+          console.error('Failed to register user');
+        }
+      } catch (error) {
+        console.error('Error during registration:', error);
+      }
+    };
+*/
+
   return (
     <section className="flex items-center justify-center h-screen">
       <div className="text-center">
@@ -10,6 +50,30 @@ function Signup() {
 
         <div className="mt-8 w-full max-w-md mx-auto">
           <form className="px-8 py-10 mx-auto overflow-hidden bg-white rounded-lg shadow-2xl dark:shadow-black/50">
+            <div className="mb-4">
+              <label htmlFor="name" className="block mb-2 text-sm text-black dark:text-black">
+                Full Name
+              </label>
+              <input
+                type="text"
+                id="name"
+                placeholder="John Doe"
+                className="w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 border border-gray-200 rounded-md dark:placeholder-gray-600 dark:text-black-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+              />
+            </div>
+
+            <div className="mb-4">
+              <label htmlFor="username" className="block mb-2 text-sm text-black dark:text-black">
+                Username
+              </label>
+              <input
+                type="text"
+                id="username"
+                placeholder="johndoe123"
+                className="w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 border border-gray-200 rounded-md dark:placeholder-gray-600 dark:text-black-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+              />
+            </div>
+
             <div className="mb-4">
               <label htmlFor="email" className="block mb-2 text-sm text-black dark:text-black">
                 Email address
@@ -22,7 +86,7 @@ function Signup() {
               />
             </div>
 
-            <div className="mb-6">
+            <div className="mb-4">
               <label htmlFor="password" className="block mb-2 text-sm text-black dark:text-black">
                 Password
               </label>
@@ -32,6 +96,57 @@ function Signup() {
                 placeholder="********"
                 className="w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 border border-gray-200 rounded-md dark:placeholder-gray-600 dark:text-black-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
               />
+            </div>
+
+            <div className="mb-4">
+              <label htmlFor="address" className="block mb-2 text-sm text-black dark:text-black">
+                Address
+              </label>
+              <input
+                type="text"
+                id="address"
+                placeholder="123 Main St, City, Country"
+                className="w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 border border-gray-200 rounded-md dark:placeholder-gray-600 dark:text-black-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+              />
+            </div>
+
+            <div className="mb-4">
+              <label htmlFor="contact" className="block mb-2 text-sm text-black dark:text-black">
+                Contact Number
+              </label>
+              <input
+                type="tel"
+                id="contact"
+                placeholder="(555) 123-4567"
+                className="w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 border border-gray-200 rounded-md dark:placeholder-gray-600 dark:text-black-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+              />
+            </div>
+
+            <div className="mb-4">
+              <label htmlFor="gender" className="block mb-2 text-sm text-black dark:text-black">
+                Gender
+              </label>
+              <select
+                id="gender"
+                className="w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 border border-gray-200 rounded-md dark:placeholder-gray-600 dark:text-black-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+              >
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div className="mb-4">
+              <label htmlFor="userType" className="block mb-2 text-sm text-black dark:text-black">
+                User Type
+              </label>
+              <select
+                id="userType"
+                className="w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 border border-gray-200 rounded-md dark:placeholder-gray-600 dark:text-black-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+              >
+                <option value="registered">Registered User</option>
+                <option value="admin">Admin</option>
+              </select>
             </div>
 
             <button
