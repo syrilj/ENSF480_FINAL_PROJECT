@@ -1,25 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import "./styles.css";
+import CustomInput from "./componets/CustomInput";
+import Button from "./componets/Button";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default class App extends Component {
+  state = {
+    email: "",
+    password: ""
+  };
+
+  handleChange = e => {
+    this.setState({ [e.currentTarget.id]: e.currentTarget.value });
+  };
+
+  render() {
+    return (
+        <div className="App">
+          <form className="form">
+            <CustomInput
+                labelText="Email"
+                id="email"
+                formControlProps={{
+                  fullWidth: true
+                }}
+                handleChange={this.handleChange}
+                type="text"
+            />
+            <CustomInput
+                labelText="Password"
+                id="password"
+                formControlProps={{
+                  fullWidth: true
+                }}
+                handleChange={this.handleChange}
+                type="password"
+            />
+
+            <Button type="button" color="primary" className="form__custom-button">
+              Log in
+            </Button>
+          </form>
+        </div>
+    );
+  }
 }
-
-export default App;
