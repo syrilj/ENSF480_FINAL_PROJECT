@@ -94,7 +94,16 @@ public class UserController {
 	public ResponseEntity<String> showSearchFlight(User user) {
 		return ResponseEntity.ok("user_search_flight");
 	}
+	@GetMapping("/{flightNumber}")
+	public ResponseEntity<Flights> getFlightDetails(@PathVariable String flightNumber) {
+		Flights flight = fservice.getFlight(flightNumber);
 
+		if (flight != null) {
+			return ResponseEntity.ok(flight);
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+	}
 	@PostMapping("/user_search_flight")
 	public ResponseEntity<ArrayList<Flights>> showFlightsSearched(@RequestParam String from,
 																  @RequestParam String to,
@@ -243,11 +252,48 @@ public class UserController {
 		LOGGER.info("End");
 		return ResponseEntity.ok("Ticket Booked Successfully! You can check in Manage Bookings.");
 	}
+	@GetMapping("/flight_seat_map/{flightNumber}")
+	public ResponseEntity<Map<String, Object>> getFlightSeatMapWithPrices(@PathVariable String flightNumber) {
+		LOGGER.info("Start");
+
+		// Assuming your FlightService has a method to get the list of flight details
+		ArrayList<Flights> flightsList = fservice.getFlight_details();
+
+		// Find the specific flight with the matching flight number
+		Flights flight = null;
+		for (Flights f : flightsList) {
+			if (f.getFlightno().equals(flightNumber)) {
+				flight = f;
+				break;
+			}
+		}
+
+		if (flight == null) {
+			return ResponseEntity.notFound().build();
+		}
+
+		List<String> seatMap = flight.getSeatMap();
+
+		// Calculate prices for each seat type using existing functions in Flights class
+		Map<String, Float> seatPrices = new HashMap<>();
+		seatPrices.put("Ordinary", flight.getE_seat_price());
+		seatPrices.put("Comfort", flight.getB_seat_price() * 1.4f); // Assuming Comfort seat is 40% more than Ordinary
+		seatPrices.put("Business-Class", flight.getB_seat_price() * 2.0f); // Assuming Business-Class is more than double
+
+		Map<String, Object> response = new HashMap<>();
+		response.put("seatMap", seatMap);
+		response.put("seatPrices", seatPrices);
+
+		LOGGER.info("End");
+		return ResponseEntity.ok(response);
+	}
+
 	@GetMapping("/finish")
 	public ResponseEntity<String> logoutUser(@RequestParam String username) {
 		// This logic needs to be done on the fronedn side to complete later
 		return ResponseEntity.ok("User logged out successfully");
 	}
+
 
 	@ExceptionHandler(value = Exception.class)
 	public ResponseEntity<String> exceptionHandlerGeneric() {

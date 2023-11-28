@@ -14,13 +14,13 @@ public class FlightDaoImpl implements FlightDao {
 
 	@Override
 	public void addFlight(String flightno, String from, String to, String dept_date, String arr_date, String dept_time,
-			String arr_time, int e_seats_left, int b_seats_left, float e_seat_price, float b_seat_price,
-			String flight_company, String status) {
+						  String arr_time, int e_seats_left, int c_seats_left, int b_seats_left, float e_seat_price, float c_seat_price,
+						  float b_seat_price, String flight_company, String status) {
 
 		Connection con = ConnectionHandler.getConnection();
-		String query = "insert into flight_details(flightno,from_city,to_city,departure_date,arrival_date,"
-				+ "departure_time,arrival_time,e_seats_left,b_seats_left,e_price,b_price,flight_company,status)"
-				+ " values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		String query = "INSERT INTO flight_details (flightno, from_city, to_city, departure_date, arrival_date, "
+				+ "departure_time, arrival_time, e_seats_left, c_seats_left, b_seats_left, e_price, c_price, b_price, "
+				+ "flight_company, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 		try {
 			PreparedStatement stmt = con.prepareStatement(query);
@@ -32,16 +32,19 @@ public class FlightDaoImpl implements FlightDao {
 			stmt.setString(6, dept_time);
 			stmt.setString(7, arr_time);
 			stmt.setInt(8, e_seats_left);
-			stmt.setInt(9, b_seats_left);
-			stmt.setFloat(10, e_seat_price);
-			stmt.setFloat(11, b_seat_price);
-			stmt.setString(12, flight_company);
-			stmt.setString(13, status);
+			stmt.setInt(9, c_seats_left); // Comfort class seats parameter
+			stmt.setInt(10, b_seats_left);
+			stmt.setFloat(11, e_seat_price);
+			stmt.setFloat(12, c_seat_price); // Comfort class price parameter
+			stmt.setFloat(13, b_seat_price);
+			stmt.setString(14, flight_company);
+			stmt.setString(15, status);
 			stmt.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
+
 
 	@Override
 	public ArrayList<Flights> getFlight_details() {
@@ -60,13 +63,15 @@ public class FlightDaoImpl implements FlightDao {
 				String dept_time = rs.getString("departure_time");
 				String arr_time = rs.getString("arrival_time");
 				int e_seats_left = rs.getInt("e_seats_left");
+				int c_seats_left = rs.getInt("c_seats_left"); // Assuming you added Comfort class seats column
 				int b_seats_left = rs.getInt("b_seats_left");
 				float e_seat_price = rs.getFloat("e_price");
+				float c_seat_price = rs.getFloat("c_price"); // Assuming you added Comfort class price column
 				float b_seat_price = rs.getFloat("b_price");
 				String flight_company = rs.getString("flight_company");
 				String status = rs.getString("status");
 				Flights flight = new Flights(flightno, from, to, dept_date, arr_date, dept_time, arr_time, e_seats_left,
-						b_seats_left, e_seat_price, b_seat_price, flight_company, status);
+						c_seats_left, b_seats_left, e_seat_price, c_seat_price, b_seat_price, flight_company, status);
 				Flights_list.add(flight);
 			}
 		} catch (SQLException e) {
@@ -74,6 +79,7 @@ public class FlightDaoImpl implements FlightDao {
 		}
 		return Flights_list;
 	}
+
 
 	@Override
 	public Flights getFlight(String flightno) {
@@ -92,13 +98,15 @@ public class FlightDaoImpl implements FlightDao {
 				String dept_time = rs.getString("departure_time");
 				String arr_time = rs.getString("arrival_time");
 				int e_seats_left = rs.getInt("e_seats_left");
+				int c_seats_left = rs.getInt("c_seats_left"); // Assuming you added Comfort class seats column
 				int b_seats_left = rs.getInt("b_seats_left");
 				float e_seat_price = rs.getFloat("e_price");
+				float c_seat_price = rs.getFloat("c_price"); // Assuming you added Comfort class price column
 				float b_seat_price = rs.getFloat("b_price");
 				String flight_company = rs.getString("flight_company");
 				String status = rs.getString("status");
 				flight = new Flights(flightno, from, to, dept_date, arr_date, dept_time, arr_time, e_seats_left,
-						b_seats_left, e_seat_price, b_seat_price, flight_company, status);
+						c_seats_left, b_seats_left, e_seat_price, c_seat_price, b_seat_price, flight_company, status);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -106,12 +114,14 @@ public class FlightDaoImpl implements FlightDao {
 		return flight;
 	}
 
+
+	@Override
 	public void updateFlight(Flights flight) {
 		String separator = ",";
 		Connection con = ConnectionHandler.getConnection();
-		final String query = "update flight_details set from_city= ?,to_city= ?,departure_date = ?, "
-				+ "arrival_date=?,departure_time=?,arrival_time=?,e_seats_left=?,b_seats_left=?,e_price=?,"
-				+ "b_price=?,flight_company=?,status=? where flightno = ?";
+		final String query = "update flight_details set from_city=?, to_city=?, departure_date=?, "
+				+ "arrival_date=?, departure_time=?, arrival_time=?, e_seats_left=?, b_seats_left=?, "
+				+ "c_seats_left=?, e_price=?, b_price=?, c_price=?, flight_company=?, status=? where flightno = ?";
 		try {
 			String flightnumber = flight.getFlightno();
 			int sepPos = flightnumber.indexOf(separator);
@@ -125,16 +135,19 @@ public class FlightDaoImpl implements FlightDao {
 			stmt.setString(6, flight.getArr_time());
 			stmt.setInt(7, flight.getE_seats_left());
 			stmt.setInt(8, flight.getB_seats_left());
-			stmt.setFloat(9, flight.getE_seat_price());
-			stmt.setFloat(10, flight.getB_seat_price());
-			stmt.setString(11, flight.getFlight_company());
-			stmt.setString(12, flight.getStatus());
-			stmt.setString(13, flightno);
+			stmt.setInt(9, flight.getC_seats_left());  // Add Comfort class seats left
+			stmt.setFloat(10, flight.getE_seat_price());
+			stmt.setFloat(11, flight.getB_seat_price());
+			stmt.setFloat(12, flight.getC_seat_price());  // Add Comfort class seat price
+			stmt.setString(13, flight.getFlight_company());
+			stmt.setString(14, flight.getStatus());
+			stmt.setString(15, flightno);
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
+
 
 	@Override
 	public void deleteFlight(String flightno) {
@@ -153,7 +166,7 @@ public class FlightDaoImpl implements FlightDao {
 	public ArrayList<Flights> getUserFlight_details(String from, String to, String departure) {
 		ArrayList<Flights> Flights_list = new ArrayList<Flights>();
 		final String query = "select flightno,from_city,to_city,departure_date,arrival_date,departure_time,"
-				+ "arrival_time,e_seats_left,b_seats_left,e_price,b_price,flight_company,status "
+				+ "arrival_time,e_seats_left,c_seats_left,b_seats_left,e_price,c_price,b_price,flight_company,status "
 				+ "from flight_details where from_city=? and to_city=? and departure_date=?";
 		Connection con = ConnectionHandler.getConnection();
 		try {
@@ -171,13 +184,16 @@ public class FlightDaoImpl implements FlightDao {
 				String dept_time = rs.getString("departure_time");
 				String arr_time = rs.getString("arrival_time");
 				int e_seats_left = rs.getInt("e_seats_left");
+				int c_seats_left = rs.getInt("c_seats_left");
 				int b_seats_left = rs.getInt("b_seats_left");
 				float e_seat_price = rs.getFloat("e_price");
+				float c_seat_price = rs.getFloat("c_price");
 				float b_seat_price = rs.getFloat("b_price");
 				String flight_company = rs.getString("flight_company");
 				String status = rs.getString("status");
 				Flights flight = new Flights(flightno, from1, to1, dept_date, arr_date, dept_time, arr_time,
-						e_seats_left, b_seats_left, e_seat_price, b_seat_price, flight_company, status);
+						e_seats_left, c_seats_left, b_seats_left, e_seat_price, c_seat_price, b_seat_price,
+						flight_company, status);
 				Flights_list.add(flight);
 				System.out.println("Sent");
 			}
@@ -186,5 +202,6 @@ public class FlightDaoImpl implements FlightDao {
 		}
 		return Flights_list;
 	}
+
 
 }

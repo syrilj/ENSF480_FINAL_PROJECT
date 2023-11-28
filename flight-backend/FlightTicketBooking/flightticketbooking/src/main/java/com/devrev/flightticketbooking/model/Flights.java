@@ -1,8 +1,30 @@
 package com.devrev.flightticketbooking.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Flights {
 
 	int e_seats_left;
+
+	public int getC_seats_left() {
+		return c_seats_left;
+	}
+
+	public void setC_seats_left(int c_seats_left) {
+		this.c_seats_left = c_seats_left;
+	}
+
+	public float getC_seat_price() {
+		return c_seat_price;
+	}
+
+	public void setC_seat_price(float c_seat_price) {
+		this.c_seat_price = c_seat_price;
+	}
+
+	int c_seats_left;
+	float c_seat_price;
 	int b_seats_left;
 	float e_seat_price;
 	private float b_seat_price;
@@ -16,11 +38,12 @@ public class Flights {
 	String arr_time;
 	String flight_company;
 	String status;
-	
+
 
 	public Flights(String flightno, String from, String to, String dept_date, String arr_date, String dept_time,
-			String arr_time, int e_seats_left, int b_seats_left, float e_seat_price, float b_seat_price,
-			String flight_company,String status) {
+				   String arr_time, int e_seats_left, int c_seats_left, int b_seats_left,
+				   float e_seat_price, float c_seat_price, float b_seat_price,
+				   String flight_company, String status) {
 		super();
 		this.flightno = flightno;
 		this.from = from;
@@ -30,11 +53,13 @@ public class Flights {
 		this.dept_time = dept_time;
 		this.arr_time = arr_time;
 		this.e_seats_left = e_seats_left;
+		this.c_seats_left = c_seats_left;
 		this.b_seats_left = b_seats_left;
 		this.e_seat_price = e_seat_price;
+		this.c_seat_price = c_seat_price;
 		this.b_seat_price = b_seat_price;
 		this.flight_company = flight_company;
-		this.status=status;
+		this.status = status;
 	}
 
 	public String getFlightno() {
@@ -116,5 +141,26 @@ public class Flights {
 		this.status = status;
 	}
 
-	
+
+	public List<String> getSeatMap() {
+		List<String> seatMap = new ArrayList<>();
+
+		// Add Ordinary seats
+		for (int i = 0; i < e_seats_left; i++) {
+			seatMap.add("Ordinary");
+		}
+
+		// Add Comfort seats
+
+		for (int i = 0; i < c_seats_left; i++) {
+			seatMap.add("Comfort");
+		}
+
+		// Add Business-Class seats
+		for (int i = 0; i < b_seats_left; i++) {
+			seatMap.add("Business-Class");
+		}
+
+		return seatMap;
+	}
 }

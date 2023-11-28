@@ -89,9 +89,7 @@ public class AdminController {
 	}
 
 	@PostMapping("/admin_add_flight")
-	public ResponseEntity<String> addFlightDetails(@RequestBody Map<String, String> flightDetails)
-												  {
-
+	public ResponseEntity<String> addFlightDetails(@RequestBody Map<String, String> flightDetails) {
 		LOGGER.info("Start");
 		fservice.addFlight(
 				flightDetails.get("flightno"),
@@ -102,8 +100,10 @@ public class AdminController {
 				flightDetails.get("dept_time"),
 				flightDetails.get("arr_time"),
 				Integer.parseInt(flightDetails.get("e_seats_left")),
+				Integer.parseInt(flightDetails.get("c_seats_left")),  // Add Comfort class seats parameter
 				Integer.parseInt(flightDetails.get("b_seats_left")),
 				Float.parseFloat(flightDetails.get("e_seat_price")),
+				Float.parseFloat(flightDetails.get("c_seat_price")),  // Add Comfort class price parameter
 				Float.parseFloat(flightDetails.get("b_seat_price")),
 				flightDetails.get("flight_company"),
 				flightDetails.get("status")
@@ -112,6 +112,7 @@ public class AdminController {
 
 		return ResponseEntity.ok("Flight details added successfully");
 	}
+
 
 	@GetMapping("/edit_flight_details")
 	public ResponseEntity<Flights> showEditFlightdetails(@RequestParam String flightno) {

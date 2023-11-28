@@ -19,8 +19,8 @@ public class BookingsDaoImpl implements BookingsDao {
 
 	@Override
 	public double addPassenger(String p_fno, String p_from, String p_to, Date p_dedate, Date p_ardate, String p_detime,
-			String p_artime, String p_status, String p_name, String p_age, String p_sex, String p_class, String pnr,
-			String p_email, double cost) {
+							   String p_artime, String p_status, String p_name, String p_age, String p_sex, String p_class, String pnr,
+							   String p_email, double cost) {
 
 		String pattern = "yyyy-MM-dd";
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
@@ -46,9 +46,11 @@ public class BookingsDaoImpl implements BookingsDao {
 			stmt.setString(11, p_artime);
 			stmt.setString(12, "booked");
 			stmt.setString(13, p_class);
-			if (p_class.equals("Economy")) {
-				final String seatcountquery = "select e_seats_left,e_price from flight_details where flightno=?";
 
+			int seatcount = 0;
+
+			if (p_class.equals("Economy")) {
+				final String seatcountquery = "select e_seats_left, e_price from flight_details where flightno=?";
 				try {
 					PreparedStatement stmtcount = con.prepareStatement(seatcountquery);
 					stmtcount.setString(1, p_fno);
@@ -61,13 +63,10 @@ public class BookingsDaoImpl implements BookingsDao {
 						cost = rs.getFloat("e_price");
 					}
 				} catch (SQLException e) {
-
 					e.printStackTrace();
 				}
-
-			} else {
-				final String seatcountquery = "select b_seats_left,b_price from flight_details where flightno=?";
-
+			} else if (p_class.equals("Business")) {
+				final String seatcountquery = "select b_seats_left, b_price from flight_details where flightno=?";
 				try {
 					PreparedStatement stmtcount = con.prepareStatement(seatcountquery);
 					stmtcount.setString(1, p_fno);
@@ -78,10 +77,24 @@ public class BookingsDaoImpl implements BookingsDao {
 							return 0;
 						}
 						cost = rs.getFloat("b_price");
-
 					}
 				} catch (SQLException e) {
-
+					e.printStackTrace();
+				}
+			} else if (p_class.equals("Comfort")) {
+				final String seatcountquery = "select c_seats_left, c_price from flight_details where flightno=?";
+				try {
+					PreparedStatement stmtcount = con.prepareStatement(seatcountquery);
+					stmtcount.setString(1, p_fno);
+					ResultSet rs = stmtcount.executeQuery();
+					while (rs.next()) {
+						seatcount = rs.getInt("c_seats_left");
+						if (seatcount <= 0) {
+							return 0;
+						}
+						cost = rs.getFloat("c_price");
+					}
+				} catch (SQLException e) {
 					e.printStackTrace();
 				}
 			}
@@ -94,27 +107,28 @@ public class BookingsDaoImpl implements BookingsDao {
 			e.printStackTrace();
 		}
 
+		// Update seat count based on class
 		if (p_class.equals("Economy")) {
-
-			final String seatupdatequery = "update flight_details set e_seats_left=e_seats_left-1 where flightno=?";// set
-
+			final String seatupdatequery = "update flight_details set e_seats_left=e_seats_left-1 where flightno=?";
 			try {
-				System.out.println(p_fno);
 				PreparedStatement stmt = con.prepareStatement(seatupdatequery);
 				stmt.setString(1, p_fno);
-
 				stmt.executeUpdate();
 			} catch (SQLException e) {
-
 				e.printStackTrace();
 			}
-
-		} else {
-
-			final String seatupdatequery = "update flight_details set b_seats_left=b_seats_left-1 where flightno = ?";
-
+		} else if (p_class.equals("Business")) {
+			final String seatupdatequery = "update flight_details set b_seats_left=b_seats_left-1 where flightno=?";
 			try {
-
+				PreparedStatement stmt = con.prepareStatement(seatupdatequery);
+				stmt.setString(1, p_fno);
+				stmt.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} else if (p_class.equals("Comfort")) {
+			final String seatupdatequery = "update flight_details set c_seats_left=c_seats_left-1 where flightno=?";
+			try {
 				PreparedStatement stmt = con.prepareStatement(seatupdatequery);
 				stmt.setString(1, p_fno);
 				stmt.executeUpdate();
@@ -122,8 +136,10 @@ public class BookingsDaoImpl implements BookingsDao {
 				e.printStackTrace();
 			}
 		}
+
 		return cost;
 	}
+
 
 	@Override
 	public ArrayList<Bookings> showUserBookings(String pnr) {
