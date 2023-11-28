@@ -30,6 +30,7 @@ import com.devrev.flightticketbooking.service.LoginService;
 //@SessionAttributes({ "user" })
 @RestController
 @RequestMapping("/api/user")
+@CrossOrigin("http://localhost:3000")
 public class UserController {
 
 	@Autowired
@@ -66,16 +67,22 @@ public class UserController {
 	}
 
 	@PostMapping("/user_login")
-	public String validateUser(@RequestBody Map<String, String> userData) {
+	public ResponseEntity<Map<String, String>> validateUser(@RequestBody Map<String, String> userData) {
 		String u_username = userData.get("u_username");
 		String u_password = userData.get("u_password");
 
 		boolean isValidUser = service.validateUser(u_username, u_password);
 
+		Map<String, String> response = new HashMap<>();
+
 		if (isValidUser) {
-			return "user_rights";
+			response.put("status", "success");
+			response.put("message", "Login successful");
+			return ResponseEntity.ok(response);
 		} else {
-			return "Wrong Credentials. Please try again!";
+			response.put("status", "error");
+			response.put("message", "Wrong Credentials. Please try again!");
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
 		}
 	}
 
