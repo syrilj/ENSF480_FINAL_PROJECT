@@ -15,38 +15,17 @@ function Navbar() {
                 </a>
             </li>
             </NavLink>
-            <NavLink to={"/team"}>
+            <NavLink to={"/Login"}>
             <li>
                 <a href="#" class="flex md:inline-flex p-4 items-center hover:bg-gray-50">
-                    <span>Team</span>
+                    <span>Login</span>
                 </a>
             </li>
             </NavLink>
-            <NavLink to={"/blog"}>
+            <NavLink to={"/Signup"}>
             <li>
                 <a href="#" class="flex md:inline-flex p-4 items-center hover:bg-gray-50">
-                    <span>Blog</span>
-                </a>
-            </li>
-            </NavLink>
-            <NavLink to={"/about"}>
-            <li>
-                <a href="#" class="flex md:inline-flex p-4 items-center hover:bg-gray-50">
-                    <span>About</span>
-                </a>
-            </li>
-            </NavLink>
-            <NavLink to={"/services"}>
-            <li>
-                <a href="#" class="flex md:inline-flex p-4 items-center hover:bg-gray-50">
-                    <span>Services</span>
-                </a>
-            </li>
-            </NavLink>
-            <NavLink to={"/contact"}>
-            <li>
-                <a href="#" class="flex md:inline-flex p-4 items-center hover:bg-gray-50">
-                    <span>Contact US</span>
+                    <span>Signup</span>
                 </a>
             </li>
             </NavLink>
