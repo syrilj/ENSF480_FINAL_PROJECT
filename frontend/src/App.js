@@ -1,33 +1,34 @@
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import NavBar from './components/NavBar';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState('home');
   const [userType, setUserType] = useState(null);
 
   const handleLogin = (type) => {
     setUserType(type);
-    setCurrentPage('home'); // Redirect to home after login
-  };
-
-  const renderPage = () => {
-    switch (currentPage) {
-      case 'home':
-        return <Home userType={userType} />;
-      case 'login':
-        return <Login onLogin={handleLogin} />;
-      default:
-        return <Home userType={userType} />;
-    }
   };
 
   return (
-    <div>
-      <NavBar onPageChange={setCurrentPage} />
-      {renderPage()}
-    </div>
+    <Router>
+      <div>
+        <NavBar />
+        <Switch>
+          <Route path="/login">
+            <Login onLogin={handleLogin} />
+          </Route>
+          <Route path="/home">
+            <Home userType={userType} />
+          </Route>
+          <Route path="/" exact>
+            {/* Redirect to home page when the root path is accessed */}
+            <Home userType={userType} />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
