@@ -1,12 +1,10 @@
 // Home.js
 
 import React, { useState } from 'react';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
 
 const Home = ({ userType }) => {
-  const [departureDate, setDepartureDate] = useState(null);
-  const [arrivalDate, setArrivalDate] = useState(null);
+  const [departureDate, setDepartureDate] = useState('');
+  const [arrivalDate, setArrivalDate] = useState('');
   const [departure, setDeparture] = useState('');
   const [destination, setDestination] = useState('');
 
@@ -21,20 +19,20 @@ const Home = ({ userType }) => {
       <h2 style={styles.heading}>Flight Search</h2>
       <div style={styles.formGroup}>
         <label style={styles.label}>Departure Date:</label>
-        <DatePicker
-          selected={departureDate}
-          onChange={(date) => setDepartureDate(date)}
-          dateFormat="yyyy-MM-dd"
-          style={styles.datePicker}
+        <input
+          type="date"
+          value={departureDate}
+          onChange={(e) => setDepartureDate(e.target.value)}
+          style={styles.input}
         />
       </div>
       <div style={styles.formGroup}>
         <label style={styles.label}>Arrival Date:</label>
-        <DatePicker
-          selected={arrivalDate}
-          onChange={(date) => setArrivalDate(date)}
-          dateFormat="yyyy-MM-dd"
-          style={styles.datePicker}
+        <input
+          type="date"
+          value={arrivalDate}
+          onChange={(e) => setArrivalDate(e.target.value)}
+          style={styles.input}
         />
       </div>
       <div style={styles.formGroup}>
@@ -83,13 +81,6 @@ const styles = {
     fontSize: '1.2em',
     color: '#333',
     marginRight: '10px',
-  },
-  datePicker: {
-    padding: '8px',
-    fontSize: '1em',
-    borderRadius: '5px',
-    border: '1px solid #ccc',
-    marginRight: '10px', // Added margin for spacing
   },
   input: {
     padding: '8px',
