@@ -11,7 +11,7 @@ const NavBar = ({ onPageChange }) => {
           <button style={styles.navButton} onClick={() => onPageChange('login')}>Login</button>
         </li>
         <li style={styles.navItem}>
-          <button style={styles.navButton} onClick={() => onPageChange('reservation')}>Reservation</button>
+          <button style={styles.navButton} onClick={() => onPageChange('Sign Up')}>Sign Up</button>
         </li>
       </ul>
     </nav>
