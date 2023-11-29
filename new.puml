@@ -1,0 +1,284 @@
+@startuml
+interface com.devrev.flightticketbooking.dao.BookingsDao {
++ ArrayList<Bookings> showUserBookings(String)
++ ArrayList<Bookings> showAdminBookings()
++ void cancelBooking(String,String,String,String)
++ double addPassenger(String,String,String,Date,Date,String,String,String,String,String,String,String,String,String,double)
++ void addTopnrCostData(String,String)
+}
+class com.devrev.flightticketbooking.util.DateUtil {
++ {static} Date convertToDate(String)
+}
+class com.devrev.flightticketbooking.controller.AdminController {
+~ LoginService service
+~ FlightService fservice
+~ Admin admindata
+~ ArrayList<Bookings> Booking_list
+- {static} Logger LOGGER
+~ ArrayList<Flights> Flight_list
++ ResponseEntity<String> showWelcomePage()
++ ResponseEntity<Map<String,Object>> validateAdmin(Map<String,String>)
++ ResponseEntity<Admin> showAdminRights(Admin)
++ String showFlightDetailstoEdit(ModelMap)
++ String showAddFlightForm()
++ ResponseEntity<String> addFlightDetails(Map<String,String>)
++ ResponseEntity<Flights> showEditFlightdetails(String)
++ ResponseEntity<String> modifyFlightDetails(String,Flights,BindingResult)
++ ResponseEntity<String> showDeletingFlightDetail()
++ ResponseEntity<String> deleteFlightDetails(String)
++ ResponseEntity<List<Bookings>> showBookings()
++ ResponseEntity<String> logoutAdmin(HttpSession,SessionStatus)
++ ResponseEntity<String> exceptionHandlerGeneric(HttpSession)
+}
+interface com.devrev.flightticketbooking.model.SeatMapStrategy {
+~ List<String> generateSeatMap(int)
+}
+class com.devrev.flightticketbooking.model.Flights {
+- SeatMapStrategy ordinarySeatMapStrategy
+- SeatMapStrategy comfortSeatMapStrategy
+- SeatMapStrategy businessClassSeatMapStrategy
+~ int e_seats_left
+~ int c_seats_left
+~ float c_seat_price
+~ int b_seats_left
+~ float e_seat_price
+- float b_seat_price
+~ String flightno
+~ String from
+~ String to
+~ String dept_date
+~ String arr_date
+~ String dept_time
+~ String arr_time
+~ String flight_company
+~ String status
++ int getC_seats_left()
++ void setC_seats_left(int)
++ float getC_seat_price()
++ void setC_seat_price(float)
++ String getFlightno()
++ void setFlightno(String)
++ String getFrom()
++ void setFrom(String)
++ String getTo()
++ void setTo(String)
++ String getDept_date()
++ void setDept_date(String)
++ String getArr_date()
++ void setArr_date(String)
++ String getDept_time()
++ void setDept_time(String)
++ String getArr_time()
++ void setArr_time(String)
++ int getE_seats_left()
++ void setE_seats_left(int)
++ int getB_seats_left()
++ void setB_seats_left(int)
++ float getE_seat_price()
++ void setE_seat_price(float)
++ float getB_seat_price()
++ void setB_seat_price(float)
++ String getFlight_company()
++ void setFlight_company(String)
++ String getStatus()
++ void setStatus(String)
++ List<String> getSeatMap()
+}
+class com.devrev.flightticketbooking.model.ComfortSeatMapStrategy {
++ List<String> generateSeatMap(int)
+}
+class com.devrev.flightticketbooking.model.OrdinarySeatMapStrategy {
++ List<String> generateSeatMap(int)
+}
+class com.devrev.flightticketbooking.FlightTicketBookingApplication {
++ {static} void main(String[])
+}
+class com.devrev.flightticketbooking.model.BusinessClassSeatMapStrategy {
++ List<String> generateSeatMap(int)
+}
+class com.devrev.flightticketbooking.dao.ConnectionHandler {
+- {static} String JDBC_URL
+- {static} String USER
+- {static} String PASSWORD
+- {static} Connection connection
++ {static} Connection getConnection()
+}
+class com.devrev.flightticketbooking.dao.FlightDaoImpl {
++ void addFlight(String,String,String,String,String,String,String,int,int,int,float,float,float,String,String)
++ ArrayList<Flights> getFlight_details()
++ Flights getFlight(String)
++ void updateFlight(Flights)
++ void deleteFlight(String)
++ ArrayList<Flights> getUserFlight_details(String,String,String)
+}
+interface com.devrev.flightticketbooking.dao.FlightDao {
++ void addFlight(String,String,String,String,String,String,String,int,int,int,float,float,float,String,String)
++ ArrayList<Flights> getFlight_details()
++ Flights getFlight(String)
++ void updateFlight(Flights)
++ void deleteFlight(String)
++ ArrayList<Flights> getUserFlight_details(String,String,String)
+}
+class com.devrev.flightticketbooking.dao.BookingsDaoImpl {
+~ double cost
+~ int seatcount
++ double addPassenger(String,String,String,Date,Date,String,String,String,String,String,String,String,String,String,double)
++ ArrayList<Bookings> showUserBookings(String)
++ ArrayList<Bookings> showAdminBookings()
++ void cancelBooking(String,String,String,String)
++ void addTopnrCostData(String,String)
+}
+class com.devrev.flightticketbooking.model.Bookings {
+~ int p_seatno
+~ int p_id
+~ String p_age
+~ String p_fno
+~ String p_from
+~ String p_to
+~ String p_detime
+~ String p_artime
+~ String p_status
+~ String p_class
+~ String p_email
+~ String p_sex
+~ String p_pnr
+~ String p_name
+~ Date p_bookingdate
+~ Date p_dedate
+~ Date p_ardate
++ String getP_name()
++ void setP_name(String)
++ String getP_fno()
++ void setP_fno(String)
++ String getP_from()
++ void setP_from(String)
++ String getP_to()
++ void setP_to(String)
++ Date getP_dedate()
++ void setP_dedate(Date)
++ Date getP_ardate()
++ void setP_ardate(Date)
++ String getP_detime()
++ void setP_detime(String)
++ String getP_artime()
++ void setP_artime(String)
++ String getP_class()
++ void setP_class(String)
++ int getP_seatno()
++ void setP_seatno(int)
++ Date getP_bookingdate()
++ void setP_bookingdate(Date)
++ String getP_status()
++ void setP_status(String)
++ String toString1()
++ String toString2()
+}
+class com.devrev.flightticketbooking.service.LoginService {
+~ UserDao udao
++ void addUser(String,String,String,String,String,String,String)
++ boolean validateUser(String,String)
++ boolean validateAdmin(String,String)
+}
+class com.devrev.flightticketbooking.model.Admin {
+~ String username
+~ String password
++ String getUsername()
++ void setUsername(String)
++ String getPassword()
++ void setPassword(String)
+}
+interface com.devrev.flightticketbooking.dao.UserDao {
++ boolean validate_User(String,String)
++ void addUser(String,String,String,String,String,String,String)
++ User getUserDetails(String,String)
++ void update_UserDetails(String,String,String,String,String,String,String)
++ boolean validateAdmin(String,String)
+}
+class com.devrev.flightticketbooking.service.FlightService {
+~ FlightDao fdao
+~ BookingsDao bdao
+~ UserDao udao
+~ DateUtil date
+~ int seatcount
++ void addFlight(String,String,String,String,String,String,String,int,int,int,float,float,float,String,String)
++ ArrayList<Flights> getFlight_details()
++ Flights getFlight(String)
++ void updateFlight(Flights)
++ void deleteFlight(String)
++ ArrayList<Flights> getUserFlight_details(String,String,String)
++ double addPassenger(String,String,String,Date,Date,String,String,String,String,String,String,String,String,String,double)
++ ArrayList<Bookings> getUserBooking_details(String)
++ ArrayList<Bookings> getAdminBooking_details()
++ void cancelBooking(String,String,String,String)
++ User getUserDetails(String,String)
++ void update_UserDetails(String,String,String,String,String,String,String)
+}
+class com.devrev.flightticketbooking.controller.UserController {
+~ FlightService fservice
+~ LoginService service
+- {static} Logger LOGGER
++ String showRegisterationPage()
++ String addUserData(Map<String,String>)
++ String showUserLogin()
++ ResponseEntity<Map<String,String>> validateUser(Map<String,String>)
++ ResponseEntity<User> showUserRights(User)
++ ResponseEntity<String> showSearchFlight(User)
++ ResponseEntity<Flights> getFlightDetails(String)
++ ResponseEntity<ArrayList<Flights>> showFlightsSearched(String,String,String,User)
++ ResponseEntity<String> showBookingPage(Flights,User)
++ ResponseEntity<String> addPassenger(Map<String,String>)
++ ResponseEntity<?> showUserBookings(String)
++ ResponseEntity<Map<String,Object>> showUserBookings(Map<String,String>)
++ ResponseEntity<String> showCancelBooking(String)
++ ResponseEntity<String> cancelUserBookings(Map<String,String>)
++ ResponseEntity<User> showUserDetails(String,String)
++ ResponseEntity<User> saveUpdatedDetails(Map<String,String>)
++ ResponseEntity<String> showEditDetailsForm(String)
++ ResponseEntity<List<Bookings>> showConfirmPayment(String)
++ ResponseEntity<String> confirmAndSendMail(Map<String,String>)
++ ResponseEntity<Map<String,Object>> getFlightSeatMapWithPrices(String)
++ ResponseEntity<String> logoutUser(String)
++ ResponseEntity<String> exceptionHandlerGeneric()
+}
+class com.devrev.flightticketbooking.model.User {
+~ int u_id
+~ String u_name
+~ String u_gender
+~ String u_address
+~ String u_email_id
+~ String u_contact
+~ String u_username
+~ String u_password
++ int getU_id()
++ void setU_id(int)
++ String getU_name()
++ void setU_name(String)
++ String getU_gender()
++ void setU_gender(String)
++ String getU_address()
++ void setU_address(String)
++ String getU_email_id()
++ void setU_email_id(String)
++ String getU_contact()
++ void setU_contact(String)
++ String getU_username()
++ void setU_username(String)
++ String getU_password()
++ void setU_password(String)
+}
+class com.devrev.flightticketbooking.dao.UserDaoImpl {
++ boolean validate_User(String,String)
++ void addUser(String,String,String,String,String,String,String)
++ boolean validateAdmin(String,String)
++ User getUserDetails(String,String)
++ void update_UserDetails(String,String,String,String,String,String,String)
+}
+
+
+com.devrev.flightticketbooking.model.SeatMapStrategy <|.. com.devrev.flightticketbooking.model.ComfortSeatMapStrategy
+com.devrev.flightticketbooking.model.SeatMapStrategy <|.. com.devrev.flightticketbooking.model.OrdinarySeatMapStrategy
+com.devrev.flightticketbooking.model.SeatMapStrategy <|.. com.devrev.flightticketbooking.model.BusinessClassSeatMapStrategy
+com.devrev.flightticketbooking.dao.FlightDao <|.. com.devrev.flightticketbooking.dao.FlightDaoImpl
+com.devrev.flightticketbooking.dao.BookingsDao <|.. com.devrev.flightticketbooking.dao.BookingsDaoImpl
+com.devrev.flightticketbooking.dao.UserDao <|.. com.devrev.flightticketbooking.dao.UserDaoImpl
+@enduml

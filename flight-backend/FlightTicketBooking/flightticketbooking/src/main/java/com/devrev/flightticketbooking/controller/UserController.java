@@ -292,7 +292,11 @@ public class UserController {
 			return ResponseEntity.notFound().build();
 		}
 
-		List<String> seatMap = flight.getSeatMap();
+		// Instead of seat type strings, use the number of seats in each section
+		List<Integer> seatMap = new ArrayList<>();
+		seatMap.add(flight.getE_seats_left()); // Ordinary seats count
+		seatMap.add(flight.getC_seats_left()); // Comfort seats count
+		seatMap.add(flight.getB_seats_left()); // Business seats count
 
 		// Calculate prices for each seat type using existing functions in Flights class
 		Map<String, Float> seatPrices = new HashMap<>();
@@ -307,6 +311,7 @@ public class UserController {
 		LOGGER.info("End");
 		return ResponseEntity.ok(response);
 	}
+
 
 	@GetMapping("/finish")
 	public ResponseEntity<String> logoutUser(@RequestParam String username) {
