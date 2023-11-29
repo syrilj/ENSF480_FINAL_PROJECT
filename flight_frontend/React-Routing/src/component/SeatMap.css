@@ -1,0 +1,14 @@
+/* SeatMap.css */
+
+.seat-picker-container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.seat-picker-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}

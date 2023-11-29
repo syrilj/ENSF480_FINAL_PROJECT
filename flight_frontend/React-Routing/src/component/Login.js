@@ -24,6 +24,8 @@ const LoginForm = () => {
 
             if (response.data.status === "success") {
                 console.log("Login successful");
+
+
                 navigate("/"); // Redirect to user_rights on successful login
             } else {
                 setError(response.data.message);
