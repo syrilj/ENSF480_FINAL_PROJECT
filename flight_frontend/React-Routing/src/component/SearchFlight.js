@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const FlightSearchPage = () => {
   const cities = ['Calgary', 'Vancouver', 'Los Angeles', 'New York'];
@@ -7,15 +8,27 @@ const FlightSearchPage = () => {
   const [destinationCity, setDestinationCity] = useState('');
   const [departureDate, setDepartureDate] = useState('');
   const [arrivalDate, setArrivalDate] = useState('');
+  const [flights, setFlights] = useState([]);
+  const [error, setError] = useState(null);
 
-  const handleSearch = (e) => {
+  const handleSearch = async (e) => {
     e.preventDefault();
-    // Perform the flight search logic based on the selected options
-    console.log('Departure City:', departureCity);
-    console.log('Destination City:', destinationCity);
-    console.log('Departure Date:', departureDate);
-    console.log('Arrival Date:', arrivalDate);
-    // Implement your flight search logic or send the selected options to a backend API
+
+    try {
+      const response = await axios.post('http://localhost:8081/api/flights/search', {
+        departureCity,
+        destinationCity,
+        departureDate,
+        arrivalDate,
+      });
+
+      setFlights(response.data);
+      setError(null); // Clear any previous errors
+    } catch (error) {
+      setFlights([]);
+      setError('Error fetching flights. Please try again.');
+      console.error('Error fetching flights:', error);
+    }
   };
 
   return (
