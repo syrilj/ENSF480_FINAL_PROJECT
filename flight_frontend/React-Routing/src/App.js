@@ -9,26 +9,38 @@ import Login from "./component/Login";
 import SignUpForm from "./component/Signup";
 import Payment from "./component/Payment";
 import SearchFlight from "./component/SearchFlight.js";
+import AdminLogin from "./component/adminlogin"; // Import AdminLogin component
+// Import AdminDashboard component
+// import AdminDashboard from "./component/AdminDashboard";
 
 function App() {
     const { isAuthenticated, checkAuthentication, setIsAuthenticated } = useAuthentication();
     const [forceRerender, setForceRerender] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false); // Add state for admin
 
     useEffect(() => {
         // This effect will run whenever isAuthenticated changes
         setForceRerender(prev => !prev);
     }, [isAuthenticated]);
 
+    useEffect(() => {
+        // Check if user is admin
+        const adminData = localStorage.getItem('adminData');
+        if (adminData) {
+            setIsAdmin(true);
+        }
+    }, []);
+
     return (
         <>
-            <Navbar />
+            <Navbar isAdmin={isAdmin} />
 
             <Routes>
                 <Route path="/" element={<Home />} />
                
-                 <Route path="/seatmap" element={<SeatMap />} />
-                 <Route path="/payment" element={<Payment />} />
-                 <Route path="/SearchFlight" element={<SearchFlight />} />
+                <Route path="/seatmap" element={<SeatMap />} />
+                <Route path="/payment" element={<Payment />} />
+                <Route path="/SearchFlight" element={<SearchFlight />} />
 
                 <Route path="/logout" element={<Logout setIsAuthenticated={setIsAuthenticated} />} />
 
@@ -37,8 +49,12 @@ function App() {
                     element={<Login checkAuthentication={checkAuthentication} />}
                 />
                 <Route path="/signup" element={<SignUpForm />} />
-               
-             
+
+                <Route path="/adminlogin" element={<AdminLogin setIsAdmin={setIsAdmin} />} />               
+                {isAdmin && (
+                    // Add conditional section for admins
+                    <Route path="/" element={<Home />} />
+                )}
             </Routes>
         </>
     );

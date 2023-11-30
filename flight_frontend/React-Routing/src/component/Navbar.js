@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 function Navbar() {
     // Use useEffect to log changes in isAuthenticated prop
-    const [isAuthenticated, setIsAuthenticated] = useAuthentication();
+    const [isAuthenticated, setIsAuthenticated,isAdmin] = useAuthentication();
 
     useEffect(() => {
         console.log('Navbar - isAuthenticated changed:', isAuthenticated);
@@ -24,7 +24,8 @@ function Navbar() {
                 <li>
                     <NavLink to="/" className="px-4 py-2 text-gray-700 hover:bg-gray-100">Home</NavLink>
                 </li>
-                {isAuthenticated ? (
+                
+                {isAuthenticated && !isAdmin && (
                     <>
                         <li>
                             <NavLink to="/seatmap" className="px-4 py-2 text-gray-700 hover:bg-gray-100">SeatMap</NavLink>
@@ -40,7 +41,20 @@ function Navbar() {
                             <NavLink to="/logout" className="px-4 py-2 text-gray-700 hover:bg-gray-100">Logout</NavLink>
                         </li>
                     </>
-                ) : (
+                )}
+    
+                {isAdmin && (
+                    <>
+                        <li>
+                            <NavLink to="/admin" className="px-4 py-2 text-gray-700 hover:bg-gray-100">Admin</NavLink>
+                        </li>
+                        <li>
+                            <NavLink to="/logout" className="px-4 py-2 text-gray-700 hover:bg-gray-100">Logout</NavLink>
+                        </li>
+                    </>
+                )}
+    
+                {!isAuthenticated && !isAdmin && (
                     <>
                         <li>
                             <NavLink to="/login" className="px-4 py-2 text-gray-700 hover:bg-gray-100">Login</NavLink>
@@ -48,7 +62,6 @@ function Navbar() {
                         <li>
                             <NavLink to="/signup" className="px-4 py-2 text-gray-700 hover:bg-gray-100">Signup</NavLink>
                         </li>
-                    
                     </>
                 )}
             </ul>
@@ -59,10 +72,14 @@ function useAuthentication() {
     const [isAuthenticated, setIsAuthenticated] = useState(
         localStorage.getItem('userData') !== null
     );
+    const [isAdmin, setIsAdmin] = useState(
+        localStorage.getItem('adminData') !== null
+    );
 
     useEffect(() => {
         const handleStorageChange = () => {
             setIsAuthenticated(localStorage.getItem('userData') !== null);
+            setIsAdmin(localStorage.getItem('adminData') !== null);
         };
 
         // Check authentication status every second
@@ -75,6 +92,6 @@ function useAuthentication() {
         };
     }, []);
 
-    return [isAuthenticated, setIsAuthenticated];
+    return [isAuthenticated, setIsAuthenticated, isAdmin, setIsAdmin];
 }
 export default Navbar;

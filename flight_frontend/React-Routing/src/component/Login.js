@@ -115,12 +115,20 @@ const LoginForm = () => {
                         >
                             Login
                         </button>
+                    
                         <Link
                             className="w-full block px-6 py-3 mt-2 text-sm font-medium tracking-wide text-gray-700 capitalize transition-colors duration-300 transform border border-gray-200 rounded-md dark:text-gray-300 hover:border-blue-400 dark:hover:border-blue-400 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                             to="/"
                         >
                             Cancel
                         </Link>
+                        <Link
+                            className="w-full block px-6 py-3 mt-2 text-sm font-medium tracking-wide text-gray-700 capitalize transition-colors duration-300 transform border border-gray-200 rounded-md dark:text-gray-300 hover:border-blue-400 dark:hover:border-blue-400 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                            to="/adminlogin"
+                        >
+                            Admin Login
+                        </Link>
+                        
                         <Link
                             className="w-full block px-6 py-3 mt-2 text-sm font-medium tracking-wide text-gray-700 capitalize transition-colors duration-300 transform border border-gray-200 rounded-md dark:text-gray-300 hover:border-blue-400 dark:hover:border-blue-400 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                             to="/Signup"

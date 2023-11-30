@@ -26,6 +26,7 @@ const Logout = ({ isAuthenticated, setIsAuthenticated }) => {
 
             // Remove user data from localStorage
             localStorage.removeItem("userData");
+            localStorage.removeItem("adminData");
 
             // Simulate an asynchronous logout process
             await new Promise((resolve) => setTimeout(resolve, 1000));
