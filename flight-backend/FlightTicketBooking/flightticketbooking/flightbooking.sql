@@ -114,33 +114,6 @@ CREATE TABLE passenger_details (
   PRIMARY KEY (p_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- insert passenger details sample data
-INSERT INTO passenger_details (
-  p_id, 
-  p_pnr, 
-  p_name, 
-  p_age, 
-  p_sex, 
-  p_fno, 
-  p_from, 
-  p_to, 
-  p_dedate, 
-  p_ardate, 
-  p_detime, 
-  p_artime, 
-  p_status, 
-  p_class, 
-  p_seatno, 
-  p_email, 
-  p_bookingdate
-) VALUES
-(1, 'PNR123', 'John Doe', '30', 'Male', 'FL123', 'Calgary', 'Los Angeles', '2023-12-01', '2023-12-01', '08:00 AM', '12:00 PM', 'Confirmed', 'Economy', 15, 'john.doe@example.com', '2023-11-30'),
-(2, 'PNR456', 'Jane Smith', '25', 'Female', 'FL456', 'Calgary', 'New York', '2023-12-02', '2023-12-02', '10:00 AM', '02:00 PM', 'Confirmed', 'Business', 8, 'jane.smith@example.com', '2023-11-30'),
-(3, 'PNR789', 'Bob Johnson', '40', 'Male', 'FL789', 'Vancouver', 'Los Angeles', '2023-12-03', '2023-12-03', '12:00 PM', '04:00 PM', 'Confirmed', 'First', 5, 'bob.johnson@example.com', '2023-11-30'),
-(4, 'PNR101', 'Alice Williams', '28', 'Female', 'FL101', 'New York', 'Calgary', '2023-12-04', '2023-12-04', '02:00 PM', '06:00 PM', 'Confirmed', 'Economy', 20, 'alice.williams@example.com', '2023-11-30'),
-(5, 'PNR202', 'Charlie Brown', '35', 'Male', 'FL202', 'Vancouver', 'Los Angeles', '2023-12-05', '2023-12-05', '04:00 PM', '08:00 PM', 'Confirmed', 'Business', 12, 'charlie.brown@example.com', '2023-11-30');
-
-
 -- Add primary key to passenger details table
 ALTER TABLE passenger_details ADD PRIMARY KEY (p_id);
 
@@ -161,4 +134,3 @@ INSERT INTO PNR (PNR_NO, TOTAL_AMOUNT) VALUES
 ('PNR789', 1200.25),
 ('PNR101', 600.00),
 ('PNR202', 950.75);
-
