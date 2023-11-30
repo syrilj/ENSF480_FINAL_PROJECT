@@ -87,18 +87,7 @@ const FlightSearchPage = () => {
           />
         </div>
 
-        <div className="mb-4">
-          <label htmlFor="arrivalDate" className="block mb-2 text-sm font-semibold text-gray-700">
-            Arrival Date
-          </label>
-          <input
-            type="date"
-            id="arrivalDate"
-            className="w-full p-2 border border-gray-300 rounded-md"
-            value={arrivalDate}
-            onChange={(e) => setArrivalDate(e.target.value)}
-          />
-        </div>
+        
 
         <button
           type="submit"
