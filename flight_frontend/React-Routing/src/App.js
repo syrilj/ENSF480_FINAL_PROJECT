@@ -7,6 +7,8 @@ import Navbar from "./component/Navbar";
 import Logout from "./component/Logout";
 import Login from "./component/Login";
 import SignUpForm from "./component/Signup";
+import Payment from "./component/Payment";
+import SearchFlight from "./component/SearchFlight.js";
 
 function App() {
     const { isAuthenticated, checkAuthentication, setIsAuthenticated } = useAuthentication();
@@ -35,6 +37,8 @@ function App() {
                     element={<Login checkAuthentication={checkAuthentication} />}
                 />
                 <Route path="/signup" element={<SignUpForm />} />
+                <Route path="/payment" element={<Payment />} />
+                <Route path="/SearchFlight" element={<SearchFlight />} />
             </Routes>
         </>
     );

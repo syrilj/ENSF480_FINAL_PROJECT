@@ -41,6 +41,12 @@ function Navbar() {
                         <li>
                             <NavLink to="/signup" className="px-4 py-2 text-gray-700 hover:bg-gray-100">Signup</NavLink>
                         </li>
+                        <li>
+                            <NavLink to="/payment" className="px-4 py-2 text-gray-700 hover:bg-gray-100">Payment</NavLink>
+                        </li>
+                        <li>
+                            <NavLink to="/SearchFlight" className="px-4 py-2 text-gray-700 hover:bg-gray-100">Search Flight</NavLink>
+                        </li>
                     </>
                 )}
             </ul>
