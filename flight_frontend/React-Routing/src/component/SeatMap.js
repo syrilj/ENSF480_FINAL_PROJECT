@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import { Grid, Paper, Typography, TextField, Button, withStyles } from '@material-ui/core';
+import {useLocation} from "react-router-dom";
 
 const styles = (theme) => ({
     root: {
@@ -60,6 +61,7 @@ const SeatMap = ({ classes }) => {
         seatMap: [],
         seatPrices: {},
     });
+    const [selectedSeat, setSelectedSeat] = useState(null);
 
     const fetchSeatData = async () => {
         try {
@@ -75,6 +77,49 @@ const SeatMap = ({ classes }) => {
         e.preventDefault();
         await fetchSeatData();
     };
+
+    const handleSeatClick = (section, seat) => {
+        setSelectedSeat({ section, seat });
+    };
+    const [userData, setUserData] = useState(null);
+
+    useEffect(() => {
+        const storedUserData = localStorage.getItem("userData");
+        if (storedUserData) {
+            setUserData(JSON.parse(storedUserData));
+        }
+    }, []);
+
+    const handleSeatSelection = async (e) => {
+        e.preventDefault();
+        try {
+            const userData = JSON.parse(localStorage.getItem('userData'));
+
+            if (!userData) {
+                console.error('User data not available.');
+                return;
+            }
+
+            console.log('Username:', userData.u_name);
+            console.log('Selected Seat:', selectedSeat)
+
+
+
+            const response = await axios.post('http://localhost:8081/api/user/selectseat', {
+                p_pnr: flightNumber,
+                p_name: userData.u_name,
+                p_seatno: selectedSeat.seat,
+            });
+
+            console.log(response.data); // Handle response as needed
+
+            // Reset selected seat after successful selection
+            setSelectedSeat(null);
+        } catch (error) {
+            console.error('Error selecting seat:', error);
+        }
+    };
+
 
     const renderSeatMap = () => {
         const { seatMap, seatPrices } = seatData;
@@ -110,7 +155,15 @@ const SeatMap = ({ classes }) => {
                         </Typography>
                         <div className={classes.seatGrid} style={{ backgroundColor: getSectionColor(sectionType) }}>
                             {Array.from({ length: seatMap[index] }).map((_, seatIndex) => (
-                                <div key={seatIndex} className={classes.seat}>
+                                <div
+                                    key={seatIndex}
+                                    className={classes.seat}
+                                    onClick={() => handleSeatClick(sectionType, seatIndex + 1)}
+                                    style={{
+                                        backgroundColor:
+                                            selectedSeat && selectedSeat.section === sectionType && selectedSeat.seat === seatIndex + 1 ? 'red' : '#ddd',
+                                    }}
+                                >
                                     {seatIndex + 1}
                                 </div>
                             ))}
@@ -140,6 +193,17 @@ const SeatMap = ({ classes }) => {
                 </Button>
             </form>
             {flightNumber && renderSeatMap()}
+
+            {selectedSeat && (
+                <form onSubmit={handleSeatSelection} className={classes.form}>
+                    <Typography variant="h5" style={{ marginTop: '20px' }}>
+                        Selected Seat: {selectedSeat.section} - {selectedSeat.seat}
+                    </Typography>
+                    <Button variant="contained" color="primary" type="submit">
+                        Confirm Seat Selection
+                    </Button>
+                </form>
+            )}
         </div>
     );
 };

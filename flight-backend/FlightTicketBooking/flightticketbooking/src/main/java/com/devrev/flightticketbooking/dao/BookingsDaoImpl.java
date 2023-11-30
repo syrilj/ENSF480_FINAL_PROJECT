@@ -270,4 +270,20 @@ public class BookingsDaoImpl implements BookingsDao {
 		}
 
 	}
+
+	@Override
+	public void updateSeatNumberForPassenger(String p_pnr, String p_name, int p_seatno) {
+		Connection con = ConnectionHandler.getConnection();
+		String updateQuery = "UPDATE passenger_details SET p_seatno = ? WHERE p_pnr = ? AND p_name = ?";
+
+		try (PreparedStatement stmt = con.prepareStatement(updateQuery)) {
+			stmt.setInt(1, p_seatno);
+			stmt.setString(2, p_pnr);
+			stmt.setString(3, p_name);
+
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

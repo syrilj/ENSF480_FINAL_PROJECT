@@ -1,18 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-
-import SignUpForm from './component/Signup';
-import Home from './component/Home';
-import Navbar from './component/Navbar';
-import Login from './component/Login';
-import SeatMap from './component/SeatMap';
-
-//import AdminDashboard from './component/AdminDashboard'; // Add your AdminDashboard component import
+import { useAuthentication } from './component/auth';
+import SeatMap from "./component/SeatMap";
+import Home from "./component/Home";
+import Navbar from "./component/Navbar";
+import Logout from "./component/Logout";
+import Login from "./component/Login";
+import SignUpForm from "./component/Signup";
 
 function App() {
-    // Assuming isAuthenticated is a state variable representing user authentication status
-    const isAuthenticated = false; // Set this to true for authenticated users
-    const isAdmin = false; // Set this to true for admin users
+    const { isAuthenticated, checkAuthentication, setIsAuthenticated } = useAuthentication();
+    const [forceRerender, setForceRerender] = useState(false);
+
+    useEffect(() => {
+        // This effect will run whenever isAuthenticated changes
+        setForceRerender(prev => !prev);
+    }, [isAuthenticated]);
 
     return (
         <>
@@ -20,22 +23,18 @@ function App() {
 
             <Routes>
                 <Route path="/" element={<Home />} />
+                <Route
+                    path="/seatmap"
+                    element={isAuthenticated ? <SeatMap /> : <Navigate to="/login" />}
+                />
 
-                {isAuthenticated ? (
-                    <>
-                        {/* Routes accessible only to authenticated users */}
-                        <Route path="/seatmap" element={<SeatMap />} />
-                        {/*{isAdmin && <Route path="/admin" element={<AdminDashboard />} />}*/}
-                    </>
-                ) : (
-                    <>
-                        {/* Routes accessible to non-authenticated users */}
+                <Route path="/logout" element={<Logout setIsAuthenticated={setIsAuthenticated} />} />
 
-                        <Route path="/seatmap" element={<SeatMap />} />
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/signup" element={<SignUpForm />} />
-                    </>
-                )}
+                <Route
+                    path="/login"
+                    element={<Login checkAuthentication={checkAuthentication} />}
+                />
+                <Route path="/signup" element={<SignUpForm />} />
             </Routes>
         </>
     );

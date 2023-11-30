@@ -67,17 +67,19 @@ public class UserController {
 	}
 
 	@PostMapping("/user_login")
-	public ResponseEntity<Map<String, String>> validateUser(@RequestBody Map<String, String> userData) {
+	public ResponseEntity<Map<String, Object>> validateUser(@RequestBody Map<String, String> userData) {
 		String u_username = userData.get("u_username");
 		String u_password = userData.get("u_password");
 
-		boolean isValidUser = service.validateUser(u_username, u_password);
+		User user = fservice.getUserDetails(u_username, u_password);
+		boolean isValidUser = user != null;
 
-		Map<String, String> response = new HashMap<>();
+		Map<String, Object> response = new HashMap<>();
 
 		if (isValidUser) {
 			response.put("status", "success");
 			response.put("message", "Login successful");
+			response.put("user", user);
 			return ResponseEntity.ok(response);
 		} else {
 			response.put("status", "error");
@@ -85,6 +87,7 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
 		}
 	}
+
 
 
 //	@ModelAttribute("user")
@@ -311,6 +314,23 @@ public class UserController {
 		LOGGER.info("End");
 		return ResponseEntity.ok(response);
 	}
+
+	@PostMapping("/selectseat")
+	public ResponseEntity<String> selectSeatForPassenger(@RequestBody Map<String, Object> payload) {
+		try {
+			String p_pnr = (String) payload.get("p_pnr");
+			String p_name = (String) payload.get("p_name");
+			int p_seatno = (int) payload.get("p_seatno");
+
+			// Assuming you have a service class to handle business logic
+			fservice.updateSeatNumberForPassenger(p_pnr, p_name, p_seatno);
+			return ResponseEntity.ok("Seat selection successful");
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body("Seat selection failed: " + e.getMessage());
+		}
+	}
+
+
 
 
 	@GetMapping("/finish")

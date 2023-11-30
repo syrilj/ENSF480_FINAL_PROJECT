@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 const SignUpForm = () => {
   const [formData, setFormData] = useState({
     u_name: "",
@@ -13,6 +14,8 @@ const SignUpForm = () => {
 
   const [successMessage, setSuccessMessage] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
+
 
   const onInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -25,6 +28,7 @@ const SignUpForm = () => {
 
       if (response.status === 200) {
         setSuccessMessage("Your registration is successful. Use your credentials for login!");
+
         setError("");
       } else {
         setSuccessMessage("");

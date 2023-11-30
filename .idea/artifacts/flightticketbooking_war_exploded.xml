@@ -54,6 +54,7 @@
           <element id="library" level="project" name="Maven: jstl:jstl:1.2" />
           <element id="library" level="project" name="Maven: org.apache.tomcat.embed:tomcat-embed-core:9.0.37" />
           <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-annotations-api:9.0.37" />
+          <element id="library" level="project" name="Maven: org.microjpa:microjpa:1.2.4" />
         </element>
       </element>
       <element id="directory" name="META-INF">

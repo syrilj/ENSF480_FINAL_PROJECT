@@ -3,6 +3,7 @@ package com.devrev.flightticketbooking.service;
 import java.sql.Date;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -82,6 +83,7 @@ public class FlightService {
 
 	}
 
+
 	public ArrayList<Bookings> getAdminBooking_details() throws ParseException {
 
 		ArrayList<Bookings> Booking_list = bdao.showAdminBookings();
@@ -105,5 +107,9 @@ public class FlightService {
 		udao.update_UserDetails(name, contact, address, gender, email_id, password, username);
 
 	}
+	public void updateSeatNumberForPassenger(String p_pnr, String p_name, int p_seatno) {
+		bdao.updateSeatNumberForPassenger(p_pnr, p_name, p_seatno);
+	}
+
 
 }

@@ -1,3 +1,4 @@
+
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -12,9 +13,31 @@ const LoginForm = () => {
 
     const { u_username, u_password } = formData;
     const [error, setError] = useState("");
+    const [userData, setUserData] = useState(null);
 
     const onInputChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const getUserDetails = async () => {
+        try {
+            const response = await axios.get("http://localhost:8081/api/user/show_user_details", {
+                params: {
+                    username: u_username,
+                    password: u_password,
+                },
+            });
+
+            if (response.data) {
+                setUserData(response.data);
+                console.log(response.data);
+            } else {
+                setError("User details not found");
+            }
+        } catch (error) {
+            setError("Error fetching user details");
+            console.error("Error fetching user details:", error);
+        }
     };
 
     const onSubmit = async (e) => {
@@ -25,6 +48,13 @@ const LoginForm = () => {
             if (response.data.status === "success") {
                 console.log("Login successful");
 
+                // Store user data in localStorage
+                localStorage.setItem("userData", JSON.stringify(response.data.user));
+                console.log(JSON.stringify(response.data.user));
+
+
+                // Fetch and store user details
+                await getUserDetails();
 
                 navigate("/"); // Redirect to user_rights on successful login
             } else {
@@ -35,6 +65,13 @@ const LoginForm = () => {
             console.error("Error during login:", error);
         }
     };
+
+
+
+
+
+
+
 
     return (
         <section className="flex items-center justify-center h-screen">
