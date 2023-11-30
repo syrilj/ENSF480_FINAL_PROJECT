@@ -84,11 +84,11 @@ INSERT INTO flight_details (
   flight_company, 
   status
 ) VALUES
-('FL123', 'New York', 'Los Angeles', '2023-12-01', '2023-12-01', '08:00 AM', '12:00 PM', 40, 10, 15, 300, 700, 500, 'Airline A', 'Scheduled'),
-('FL456', 'Chicago', 'Miami', '2023-12-02', '2023-12-02', '10:00 AM', '02:00 PM', 30, 12, 18, 250, 600, 450, 'Airline B', 'Scheduled'),
-('FL789', 'San Francisco', 'Seattle', '2023-12-03', '2023-12-03', '12:00 PM', '04:00 PM', 35, 8, 22, 350, 800, 550, 'Airline C', 'Scheduled'),
-('FL101', 'Dallas', 'Denver', '2023-12-04', '2023-12-04', '02:00 PM', '06:00 PM', 25, 15, 20, 400, 900, 600, 'Airline D', 'Scheduled'),
-('FL202', 'Boston', 'Houston', '2023-12-05', '2023-12-05', '04:00 PM', '08:00 PM', 20, 5, 25, 320, 750, 480, 'Airline E', 'Scheduled');
+('FL123', 'Calgary', 'Los Angeles', '2023-12-01', '2023-12-01', '08:00 AM', '12:00 PM', 40, 10, 15, 300, 700, 500, 'Airline A', 'Scheduled'),
+('FL456', 'Calgary', 'New York', '2023-12-02', '2023-12-02', '10:00 AM', '02:00 PM', 30, 12, 18, 250, 600, 450, 'Airline B', 'Scheduled'),
+('FL789', 'Vancouver', 'Los Angeles', '2023-12-03', '2023-12-03', '12:00 PM', '04:00 PM', 35, 8, 22, 350, 800, 550, 'Airline C', 'Scheduled'),
+('FL101', 'New York', 'Calgary', '2023-12-04', '2023-12-04', '02:00 PM', '06:00 PM', 25, 15, 20, 400, 900, 600, 'Airline D', 'Scheduled'),
+('FL202', 'Vancouver', 'Los Angeles', '2023-12-05', '2023-12-05', '04:00 PM', '08:00 PM', 20, 5, 25, 320, 750, 480, 'Airline E', 'Scheduled');
 
 
 -- Create passenger details table
@@ -134,11 +134,11 @@ INSERT INTO passenger_details (
   p_email, 
   p_bookingdate
 ) VALUES
-(1, 'PNR123', 'John Doe', '30', 'Male', 'FL123', 'New York', 'Los Angeles', '2023-12-01', '2023-12-01', '08:00 AM', '12:00 PM', 'Confirmed', 'Economy', 15, 'john.doe@example.com', '2023-11-30'),
-(2, 'PNR456', 'Jane Smith', '25', 'Female', 'FL456', 'Chicago', 'Miami', '2023-12-02', '2023-12-02', '10:00 AM', '02:00 PM', 'Confirmed', 'Business', 8, 'jane.smith@example.com', '2023-11-30'),
-(3, 'PNR789', 'Bob Johnson', '40', 'Male', 'FL789', 'San Francisco', 'Seattle', '2023-12-03', '2023-12-03', '12:00 PM', '04:00 PM', 'Confirmed', 'First', 5, 'bob.johnson@example.com', '2023-11-30'),
-(4, 'PNR101', 'Alice Williams', '28', 'Female', 'FL101', 'Dallas', 'Denver', '2023-12-04', '2023-12-04', '02:00 PM', '06:00 PM', 'Confirmed', 'Economy', 20, 'alice.williams@example.com', '2023-11-30'),
-(5, 'PNR202', 'Charlie Brown', '35', 'Male', 'FL202', 'Boston', 'Houston', '2023-12-05', '2023-12-05', '04:00 PM', '08:00 PM', 'Confirmed', 'Business', 12, 'charlie.brown@example.com', '2023-11-30');
+(1, 'PNR123', 'John Doe', '30', 'Male', 'FL123', 'Calgary', 'Los Angeles', '2023-12-01', '2023-12-01', '08:00 AM', '12:00 PM', 'Confirmed', 'Economy', 15, 'john.doe@example.com', '2023-11-30'),
+(2, 'PNR456', 'Jane Smith', '25', 'Female', 'FL456', 'Calgary', 'New York', '2023-12-02', '2023-12-02', '10:00 AM', '02:00 PM', 'Confirmed', 'Business', 8, 'jane.smith@example.com', '2023-11-30'),
+(3, 'PNR789', 'Bob Johnson', '40', 'Male', 'FL789', 'Vancouver', 'Los Angeles', '2023-12-03', '2023-12-03', '12:00 PM', '04:00 PM', 'Confirmed', 'First', 5, 'bob.johnson@example.com', '2023-11-30'),
+(4, 'PNR101', 'Alice Williams', '28', 'Female', 'FL101', 'New York', 'Calgary', '2023-12-04', '2023-12-04', '02:00 PM', '06:00 PM', 'Confirmed', 'Economy', 20, 'alice.williams@example.com', '2023-11-30'),
+(5, 'PNR202', 'Charlie Brown', '35', 'Male', 'FL202', 'Vancouver', 'Los Angeles', '2023-12-05', '2023-12-05', '04:00 PM', '08:00 PM', 'Confirmed', 'Business', 12, 'charlie.brown@example.com', '2023-11-30');
 
 
 -- Add primary key to passenger details table
