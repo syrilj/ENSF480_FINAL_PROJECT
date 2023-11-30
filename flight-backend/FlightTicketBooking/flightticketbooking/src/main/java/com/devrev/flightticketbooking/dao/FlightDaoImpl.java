@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.devrev.flightticketbooking.model.Flights;
@@ -161,6 +163,8 @@ public class FlightDaoImpl implements FlightDao {
 			e.printStackTrace();
 		}
 	}
+
+
 
 	@Override
 	public ArrayList<Flights> getUserFlight_details(String from, String to, String departure) {

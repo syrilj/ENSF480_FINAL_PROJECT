@@ -29,6 +29,13 @@ function Navbar() {
                         <li>
                             <NavLink to="/seatmap" className="px-4 py-2 text-gray-700 hover:bg-gray-100">SeatMap</NavLink>
                         </li>
+                     
+                        <li>
+                            <NavLink to="/payment" className="px-4 py-2 text-gray-700 hover:bg-gray-100">Payment</NavLink>
+                        </li>
+                        <li>
+                            <NavLink to="/SearchFlight" className="px-4 py-2 text-gray-700 hover:bg-gray-100">Search Flight</NavLink>
+                        </li>
                         <li>
                             <NavLink to="/logout" className="px-4 py-2 text-gray-700 hover:bg-gray-100">Logout</NavLink>
                         </li>
@@ -41,12 +48,7 @@ function Navbar() {
                         <li>
                             <NavLink to="/signup" className="px-4 py-2 text-gray-700 hover:bg-gray-100">Signup</NavLink>
                         </li>
-                        <li>
-                            <NavLink to="/payment" className="px-4 py-2 text-gray-700 hover:bg-gray-100">Payment</NavLink>
-                        </li>
-                        <li>
-                            <NavLink to="/SearchFlight" className="px-4 py-2 text-gray-700 hover:bg-gray-100">Search Flight</NavLink>
-                        </li>
+                    
                     </>
                 )}
             </ul>
@@ -58,7 +60,20 @@ function useAuthentication() {
         localStorage.getItem('userData') !== null
     );
 
-    // You can include additional authentication logic here if needed
+    useEffect(() => {
+        const handleStorageChange = () => {
+            setIsAuthenticated(localStorage.getItem('userData') !== null);
+        };
+
+        // Check authentication status every second
+        const intervalId = setInterval(handleStorageChange, 1000);
+
+        // Cleanup function
+        return () => {
+            clearInterval(intervalId);
+            window.removeEventListener('storage', handleStorageChange);
+        };
+    }, []);
 
     return [isAuthenticated, setIsAuthenticated];
 }

@@ -25,10 +25,10 @@ function App() {
 
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route
-                    path="/seatmap"
-                    element={isAuthenticated ? <SeatMap /> : <Navigate to="/login" />}
-                />
+               
+                 <Route path="/seatmap" element={<SeatMap />} />
+                 <Route path="/payment" element={<Payment />} />
+                 <Route path="/SearchFlight" element={<SearchFlight />} />
 
                 <Route path="/logout" element={<Logout setIsAuthenticated={setIsAuthenticated} />} />
 
@@ -37,8 +37,8 @@ function App() {
                     element={<Login checkAuthentication={checkAuthentication} />}
                 />
                 <Route path="/signup" element={<SignUpForm />} />
-                <Route path="/payment" element={<Payment />} />
-                <Route path="/SearchFlight" element={<SearchFlight />} />
+               
+             
             </Routes>
         </>
     );

@@ -100,10 +100,19 @@ public class UserController {
 		return ResponseEntity.ok(user);
 	}
 
-	@GetMapping("/user_search_flight")
-	public ResponseEntity<String> showSearchFlight(User user) {
-		return ResponseEntity.ok("user_search_flight");
-	}
+//	@GetMapping("/user_search_flight")
+//	public ResponseEntity<ArrayList<Flights>> showFlightsSearched(
+//			@RequestParam String from,
+//			@RequestParam String to,
+//			@RequestParam String dept_date
+//	) {
+//		LOGGER.info("Start");
+//		ArrayList<Flights> flights = fservice.getUserFlight_details(from, to, dept_date);
+//		LOGGER.info("End");
+//		return ResponseEntity.ok(flights);
+//	}
+
+
 	@GetMapping("/{flightNumber}")
 	public ResponseEntity<Flights> getFlightDetails(@PathVariable String flightNumber) {
 		Flights flight = fservice.getFlight(flightNumber);
@@ -115,15 +124,31 @@ public class UserController {
 		}
 	}
 	@PostMapping("/user_search_flight")
-	public ResponseEntity<ArrayList<Flights>> showFlightsSearched(@RequestParam String from,
-																  @RequestParam String to,
-																  @RequestParam String dept_date,
-																  User user) {
+	public ResponseEntity<ArrayList<Flights>> showFlightsSearched(@RequestBody Flights flightSearchForm) {
+		LOGGER.info("Start");
+		ArrayList<Flights> flights = fservice.getUserFlight_details(
+				flightSearchForm.getFrom(),
+				flightSearchForm.getTo(),
+				flightSearchForm.getDept_date()
+		);
+		LOGGER.info("End");
+		return ResponseEntity.ok(flights);
+	}
+	@GetMapping("/user_search_flight/{from}/{to}/{dept_date}")
+	public ResponseEntity<ArrayList<Flights>> showFlightsSearched(
+			@PathVariable String from,
+			@PathVariable String to,
+			@PathVariable String dept_date
+	) {
 		LOGGER.info("Start");
 		ArrayList<Flights> flights = fservice.getUserFlight_details(from, to, dept_date);
 		LOGGER.info("End");
 		return ResponseEntity.ok(flights);
 	}
+
+
+
+
 
 	@GetMapping("/user_book_flight")
 	public ResponseEntity<String> showBookingPage(@ModelAttribute("flight") Flights flight,
