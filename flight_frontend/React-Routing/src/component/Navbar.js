@@ -31,8 +31,12 @@ function Navbar() {
                 
                 {isAuthenticated && !isAdmin && (
                     <>
+
                         <li>
                             <NavLink to="/seatmap" className="px-4 py-2 text-gray-700 hover:bg-gray-100">SeatMap</NavLink>
+                        </li>
+                        <li>
+                            <NavLink to="/cancelflight" className="px-4 py-2 text-gray-700 hover:bg-gray-100">Cancel Flight</NavLink>
                         </li>
                      
                         <li>

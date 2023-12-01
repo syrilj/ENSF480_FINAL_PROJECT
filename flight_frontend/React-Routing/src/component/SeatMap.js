@@ -1,7 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Grid, Paper, Typography, TextField, Button, withStyles } from '@material-ui/core';
-import {useLocation} from "react-router-dom";
+import { Paper, Typography, Button, withStyles } from '@material-ui/core';
 
 const styles = (theme) => ({
     root: {
@@ -11,10 +10,6 @@ const styles = (theme) => ({
         boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
         maxWidth: '800px',
         margin: 'auto',
-    },
-    form: {
-        marginBottom: theme.spacing(2),
-        textAlign: 'center',
     },
     sectionPaper: {
         marginBottom: theme.spacing(3),
@@ -53,6 +48,10 @@ const styles = (theme) => ({
         backgroundColor: '#fff',
         borderRadius: '0 0 15px 15px',
     },
+    form: {
+        marginTop: theme.spacing(2),
+        textAlign: 'center',
+    },
 });
 
 const SeatMap = ({ classes }) => {
@@ -62,33 +61,38 @@ const SeatMap = ({ classes }) => {
         seatPrices: {},
     });
     const [selectedSeat, setSelectedSeat] = useState(null);
+    const [userData, setUserData] = useState(null);
 
-    const fetchSeatData = async () => {
-        try {
-            const response = await axios.get(`http://localhost:8081/api/user/flight_seat_map/${flightNumber}`);
-            setSeatData(response.data);
-        } catch (error) {
-            console.error('Error fetching seat data:', error);
-            setSeatData({ seatMap: [], seatPrices: {} });
+    useEffect(() => {
+        const storedUserData = localStorage.getItem('userData');
+        const selectedFlightData = localStorage.getItem('selectedFlight');
+
+        if (storedUserData && selectedFlightData) {
+            setUserData(JSON.parse(storedUserData));
+            const flightData = JSON.parse(selectedFlightData);
+            setFlightNumber(flightData.flightno);
         }
-    };
+    }, []);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        await fetchSeatData();
-    };
+    useEffect(() => {
+        if (flightNumber) {
+            const fetchSeatData = async () => {
+                try {
+                    const response = await axios.get(`http://localhost:8081/api/user/flight_seat_map/${flightNumber}`);
+                    setSeatData(response.data);
+                } catch (error) {
+                    console.error('Error fetching seat data:', error);
+                    setSeatData({ seatMap: [], seatPrices: {} });
+                }
+            };
+
+            fetchSeatData();
+        }
+    }, [flightNumber]);
 
     const handleSeatClick = (section, seat) => {
         setSelectedSeat({ section, seat });
     };
-    const [userData, setUserData] = useState(null);
-
-    useEffect(() => {
-        const storedUserData = localStorage.getItem("userData");
-        if (storedUserData) {
-            setUserData(JSON.parse(storedUserData));
-        }
-    }, []);
 
     const handleSeatSelection = async (e) => {
         e.preventDefault();
@@ -101,9 +105,7 @@ const SeatMap = ({ classes }) => {
             }
 
             console.log('Username:', userData.u_name);
-            console.log('Selected Seat:', selectedSeat)
-
-
+            console.log('Selected Seat:', selectedSeat);
 
             const response = await axios.post('http://localhost:8081/api/user/selectseat', {
                 p_pnr: flightNumber,
@@ -119,7 +121,6 @@ const SeatMap = ({ classes }) => {
             console.error('Error selecting seat:', error);
         }
     };
-
 
     const renderSeatMap = () => {
         const { seatMap, seatPrices } = seatData;
@@ -179,20 +180,7 @@ const SeatMap = ({ classes }) => {
 
     return (
         <div>
-            <form onSubmit={handleSubmit} className={classes.form}>
-                <TextField
-                    label="Enter Flight Number"
-                    type="text"
-                    value={flightNumber}
-                    onChange={(e) => setFlightNumber(e.target.value)}
-                    required
-                    style={{ marginRight: '10px' }}
-                />
-                <Button variant="contained" color="primary" type="submit">
-                    Fetch Seat Map
-                </Button>
-            </form>
-            {flightNumber && renderSeatMap()}
+            {renderSeatMap()}
 
             {selectedSeat && (
                 <form onSubmit={handleSeatSelection} className={classes.form}>
