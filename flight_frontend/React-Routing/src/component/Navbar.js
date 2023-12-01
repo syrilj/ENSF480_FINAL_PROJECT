@@ -1,5 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import { NavLink } from 'react-router-dom';
+import {NavLink, Route} from 'react-router-dom';
+import AddFlight from "./AddFlight";
+import EditFlight from "./EditFlight";
+import DeleteFlight from "./DeleteFlight";
+import AdminDashboard from "./admindashboard";
 
 function Navbar() {
     // Use useEffect to log changes in isAuthenticated prop
@@ -45,8 +49,18 @@ function Navbar() {
     
                 {isAdmin && (
                     <>
+
                         <li>
                             <NavLink to="/admindashboard" className="px-4 py-2 text-gray-700 hover:bg-gray-100">Admin Dashboard</NavLink>
+                        </li>
+                        <li>
+                            <NavLink to="/editflight" className="px-4 py-2 text-gray-700 hover:bg-gray-100">Edit Flight</NavLink>
+                        </li>
+                        <li>
+                            <NavLink to="/deleteflight" className="px-4 py-2 text-gray-700 hover:bg-gray-100">Delete Flight</NavLink>
+                        </li>
+                        <li>
+                            <NavLink to="/addflight" className="px-4 py-2 text-gray-700 hover:bg-gray-100">Add Flight</NavLink>
                         </li>
                         <li>
                             <NavLink to="/logout" className="px-4 py-2 text-gray-700 hover:bg-gray-100">Logout</NavLink>

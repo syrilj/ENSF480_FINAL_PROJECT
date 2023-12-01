@@ -11,6 +11,10 @@ import Payment from "./component/Payment";
 import SearchFlight from "./component/SearchFlight.js";
 import AdminLogin from "./component/adminlogin"; // Import AdminLogin component
 import AdminDashboard from './component/admindashboard.js';
+import SearchResults from "./component/SearchResults";
+import AddFlight from "./component/AddFlight";
+import EditFlight from "./component/EditFlight";
+import DeleteFlight from "./component/DeleteFlight";
 // Import AdminDashboard component
 // import AdminDashboard from "./component/AdminDashboard";
 
@@ -42,6 +46,8 @@ function App() {
                 <Route path="/seatmap" element={<SeatMap />} />
                 <Route path="/payment" element={<Payment />} />
                 <Route path="/SearchFlight" element={<SearchFlight />} />
+                <Route path="/searchResults" component={SearchResults} />
+
 
                 <Route path="/logout" element={<Logout setIsAuthenticated={setIsAuthenticated} />} />
 
@@ -51,11 +57,15 @@ function App() {
                 />
                 <Route path="/signup" element={<SignUpForm />} />
 
-                <Route path="/adminlogin" element={<AdminLogin setIsAdmin={setIsAdmin} />} />               
+                <Route path="/adminlogin" element={<AdminLogin setIsAdmin={setIsAdmin} />} />
                 {isAdmin && (
-                    // Add conditional section for admins
-                    
-                    <Route path="/admindashboard" element={<AdminDashboard />} />
+                    <>
+                        <Route path="/addflight" element={<AddFlight />} />
+                        <Route path="/editflight" element={<EditFlight />} />
+                        <Route path="/deleteflight" element={<DeleteFlight />} />
+                        <Route path="/admindashboard" element={<AdminDashboard />} />
+                    </>
+
                 )}
             </Routes>
         </>

@@ -1,51 +1,106 @@
-import React, { useState } from 'react';
-import FlightService from './FlightService'; // Import your FlightService
+import React, { useState } from "react";
+import axios from "axios";
 
-function SearchFlights() {
-  const [from, setFrom] = useState('');
-  const [to, setTo] = useState('');
-  const [deptDate, setDeptDate] = useState('');
-  const [flights, setFlights] = useState([]);
+const SearchFlights = () => {
+  const [flightSearchForm, setFlightSearchForm] = useState({
+    from: "",
+    to: "",
+    dept_date: "",
+  });
 
-  const handleSearch = async () => {
+  const [searchResults, setSearchResults] = useState([]);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+
     try {
-      console.log('Searching for flights:', from, to, deptDate);
-      const flights = await FlightService.searchFlights(from, to, deptDate);
-      console.log('Received flights:', flights);
-      setFlights(flights);
+      setLoading(true);
+      const response = await axios.post("http://localhost:8081/api/user/user_search_flight", flightSearchForm);
+
+      if (response.status === 200) {
+        setSearchResults(response.data);
+        setError("");
+        console.log(response.data);
+      } else {
+        setSearchResults([]);
+        setError("Unable to fetch flights. Please try again.");
+      }
     } catch (error) {
-      console.error('Error fetching flights:', error);
+      setSearchResults([]);
+      setError(`Error during search: ${error.message}`);
+      console.error("Error during search:", error);
+    } finally {
+      setLoading(false);
     }
+  };
+
+  const handleChange = (e) => {
+    setFlightSearchForm({
+      ...flightSearchForm,
+      [e.target.name]: e.target.value,
+    });
   };
 
   return (
     <div>
-      <input value={from} onChange={e => setFrom(e.target.value)} placeholder="From" />
-      <input value={to} onChange={e => setTo(e.target.value)} placeholder="To" />
-      <input value={deptDate} onChange={e => setDeptDate(e.target.value)} placeholder="Departure Date" />
-      <button onClick={handleSearch}>Search</button>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {flights.map(flight => (
-            <tr key={flight.id}>
-              <td>{flight.name}</td>
-              <td>{flight.description}</td>
-              <td>
-                <button onClick={() => FlightService.bookFlight(flight.id)}>Book this flight</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <h2>Search Flights</h2>
+      <form onSubmit={onSubmit}>
+        <label htmlFor="from">From: </label>
+        <input
+          type="text"
+          id="from"
+          name="from"
+          value={flightSearchForm.from}
+          onChange={handleChange}
+          required
+        />
+
+        <label htmlFor="to">To: </label>
+        <input
+          type="text"
+          id="to"
+          name="to"
+          value={flightSearchForm.to}
+          onChange={handleChange}
+          required
+        />
+
+        <label htmlFor="dept_date">Departure Date: </label>
+        <input
+          type="date"
+          id="dept_date"
+          name="dept_date"
+          value={flightSearchForm.dept_date}
+          onChange={handleChange}
+          required
+        />
+
+        <button type="submit" disabled={loading}>
+          {loading ? "Searching Flights..." : "Search Flights"}
+        </button>
+      </form>
+
+      {/* Display Search Results */}
+      {searchResults.length > 0 && (
+        <div>
+          <h3>Search Results:</h3>
+          <ul>
+            {searchResults.map((flight) => (
+              <li key={flight.flightId}>
+                {/* Display flight details as needed */}
+                {flight.flightno}, {flight.from} to {flight.to}, {flight.dept_date}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* Display Error Message */}
+      {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
-}
+};
 
 export default SearchFlights;
