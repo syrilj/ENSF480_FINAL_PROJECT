@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Paper, Typography, Button, withStyles } from '@material-ui/core';
+import {useNavigate} from "react-router-dom";
 
 const styles = (theme) => ({
     root: {
@@ -55,6 +56,7 @@ const styles = (theme) => ({
 });
 
 const SeatMap = ({ classes }) => {
+    const navigate = useNavigate();
     const [flightNumber, setFlightNumber] = useState('');
     const [seatData, setSeatData] = useState({
         seatMap: [],
@@ -62,15 +64,16 @@ const SeatMap = ({ classes }) => {
     });
     const [selectedSeat, setSelectedSeat] = useState(null);
     const [userData, setUserData] = useState(null);
+    const [selectedFlightData, setSelectedFlightData] = useState(null);
 
     useEffect(() => {
         const storedUserData = localStorage.getItem('userData');
-        const selectedFlightData = localStorage.getItem('selectedFlight');
+        const storedSelectedFlightData = localStorage.getItem('selectedFlight');
 
-        if (storedUserData && selectedFlightData) {
+        if (storedUserData && storedSelectedFlightData) {
             setUserData(JSON.parse(storedUserData));
-            const flightData = JSON.parse(selectedFlightData);
-            setFlightNumber(flightData.flightno);
+            setSelectedFlightData(JSON.parse(storedSelectedFlightData));
+            setFlightNumber(JSON.parse(storedSelectedFlightData).flightno);
         }
     }, []);
 
@@ -94,8 +97,9 @@ const SeatMap = ({ classes }) => {
         setSelectedSeat({ section, seat });
     };
 
-    const handleSeatSelection = async (e) => {
+    const handleSeatSelection = (e) => {
         e.preventDefault();
+
         try {
             const userData = JSON.parse(localStorage.getItem('userData'));
 
@@ -107,13 +111,20 @@ const SeatMap = ({ classes }) => {
             console.log('Username:', userData.u_name);
             console.log('Selected Seat:', selectedSeat);
 
-            const response = await axios.post('http://localhost:8081/api/user/selectseat', {
-                p_pnr: flightNumber,
-                p_name: userData.u_name,
-                p_seatno: selectedSeat.seat,
-            });
+            const updatedFlightData = {
+                ...selectedFlightData,
+                selectedSeat: {
+                    section: selectedSeat.section,
+                    seat: selectedSeat.seat,
+                    // Assuming "p_class" is the correct field name
+                    p_class: selectedSeat.section === 'Business' ? 'Business' : 'Economy',
+                },
+            };
 
-            console.log(response.data); // Handle response as needed
+            // Update the flight data in localStorage with the selected seat information
+            localStorage.setItem('selectedFlight', JSON.stringify(updatedFlightData));
+            navigate("/bookflight")
+
 
             // Reset selected seat after successful selection
             setSelectedSeat(null);
@@ -121,7 +132,6 @@ const SeatMap = ({ classes }) => {
             console.error('Error selecting seat:', error);
         }
     };
-
     const renderSeatMap = () => {
         const { seatMap, seatPrices } = seatData;
 
@@ -178,6 +188,7 @@ const SeatMap = ({ classes }) => {
         );
     };
 
+
     return (
         <div>
             {renderSeatMap()}
@@ -189,11 +200,13 @@ const SeatMap = ({ classes }) => {
                     </Typography>
                     <Button variant="contained" color="primary" type="submit">
                         Confirm Seat Selection
+
                     </Button>
                 </form>
             )}
         </div>
     );
 };
+
 
 export default withStyles(styles)(SeatMap);

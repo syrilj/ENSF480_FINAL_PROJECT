@@ -19,7 +19,7 @@ public class BookingsDaoImpl implements BookingsDao {
 
 	@Override
 	public double addPassenger(String p_fno, String p_from, String p_to, Date p_dedate, Date p_ardate, String p_detime,
-							   String p_artime, String p_status, String p_name, String p_age, String p_sex, String p_class, String pnr,
+							   String p_artime, String p_status, String p_name, String p_seatno, String p_sex, String p_class, String pnr,
 							   String p_email, double cost) {
 
 		String pattern = "yyyy-MM-dd";
@@ -27,7 +27,7 @@ public class BookingsDaoImpl implements BookingsDao {
 		String todaysDate = simpleDateFormat.format(new java.util.Date());
 		String separator = ",";
 		Connection con = ConnectionHandler.getConnection();
-		String Query = "insert into passenger_details(p_pnr,p_name,p_age,p_sex,p_fno,p_from,p_to,p_dedate,p_ardate,p_detime,p_artime,p_status,p_class,p_seatno,p_email,p_bookingdate) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		String Query = "insert into passenger_details(p_pnr,p_name,p_seatno,p_sex,p_fno,p_from,p_to,p_dedate,p_ardate,p_detime,p_artime,p_status,p_class,p_seatno,p_email,p_bookingdate) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 		try {
 			int sepPos = pnr.indexOf(separator);
@@ -35,7 +35,7 @@ public class BookingsDaoImpl implements BookingsDao {
 			PreparedStatement stmt = con.prepareStatement(Query);
 			stmt.setString(1, pnrno);
 			stmt.setString(2, p_name);
-			stmt.setString(3, p_age);
+			stmt.setString(3, p_seatno);
 			stmt.setString(4, p_sex);
 			stmt.setString(5, p_fno);
 			stmt.setString(6, p_from);
@@ -49,7 +49,7 @@ public class BookingsDaoImpl implements BookingsDao {
 
 			int seatcount = 0;
 
-			if (p_class.equals("Economy")) {
+			if (p_class.equals("Ordinary")) {
 				final String seatcountquery = "select e_seats_left, e_price from flight_details where flightno=?";
 				try {
 					PreparedStatement stmtcount = con.prepareStatement(seatcountquery);
@@ -108,7 +108,7 @@ public class BookingsDaoImpl implements BookingsDao {
 		}
 
 		// Update seat count based on class
-		if (p_class.equals("Economy")) {
+		if (p_class.equals("Ordinary")) {
 			final String seatupdatequery = "update flight_details set e_seats_left=e_seats_left-1 where flightno=?";
 			try {
 				PreparedStatement stmt = con.prepareStatement(seatupdatequery);

@@ -69,10 +69,10 @@ public class FlightService {
 	}
 
 	public double addPassenger(String p_fno, String p_from, String p_to, Date p_dedate, Date p_ardate, String p_detime,
-			String p_artime, String p_status, String p_name, String p_age, String p_sex, String p_class, String pnr,
+			String p_artime, String p_status, String p_name, String p_seatno, String p_sex, String p_class, String pnr,
 			String p_email, double cost) {
 		double totalcost = bdao.addPassenger(p_fno, p_from, p_to, p_dedate, p_ardate, p_detime, p_artime, p_status,
-				p_name, p_age, p_sex, p_class, pnr, p_email, cost);
+				p_name, p_seatno, p_sex, p_class, pnr, p_email, cost);
 		return totalcost;
 	}
 

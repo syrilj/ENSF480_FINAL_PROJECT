@@ -169,7 +169,7 @@ public class UserController {
 		String p_artime = passengerData.get("p_artime");
 		String p_status = passengerData.get("p_status");
 		String p_name = passengerData.get("p_name");
-		String p_age = passengerData.get("p_age");
+		String p_seatno = passengerData.get("p_seatno");
 		String p_sex = passengerData.get("p_sex");
 		String p_class = passengerData.get("p_class");
 		String pnr = passengerData.get("pnr");
@@ -179,7 +179,7 @@ public class UserController {
 		LOGGER.info("Start");
 
 		double totalCost = fservice.addPassenger(p_fno, p_from, p_to, p_dedate, p_ardate, p_detime, p_artime, p_status,
-				p_name, p_age, p_sex, p_class, pnr, p_email, cost);
+				p_name, p_seatno, p_sex, p_class, pnr, p_email, cost);
 
 		if (totalCost == 0) {
 			return ResponseEntity.badRequest().body("Not enough seats left, please check the available seats");
