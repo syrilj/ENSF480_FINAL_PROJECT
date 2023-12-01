@@ -32,6 +32,7 @@ CREATE TABLE user_details (
   u_contact VARCHAR(10) NOT NULL,
   u_username VARCHAR(30) NOT NULL,
   u_password VARCHAR(30) NOT NULL,
+  u_promo VARCHAR(10) NOT NULL DEFAULT 0,
   PRIMARY KEY (u_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 

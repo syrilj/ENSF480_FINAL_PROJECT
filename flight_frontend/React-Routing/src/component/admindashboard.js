@@ -107,6 +107,13 @@ const AdminDashboard = () => {
                 >
                   Delete Flight
                 </MenuItem>
+                <MenuItem
+                    component={Link}
+                    to="/managepromo"
+                    onClick={handleMenuClose}
+                    className={classes.dropdownItem}
+                >
+                </MenuItem>
               </div>
           )}
           {!isMenuOpen && (
