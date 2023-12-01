@@ -38,6 +38,7 @@ function Navbar() {
                         <li>
                             <NavLink to="/cancelflight" className="px-4 py-2 text-gray-700 hover:bg-gray-100">Cancel Flight</NavLink>
                         </li>
+
                      
                         <li>
                             <NavLink to="/payment" className="px-4 py-2 text-gray-700 hover:bg-gray-100">Payment</NavLink>
@@ -56,6 +57,12 @@ function Navbar() {
 
                         <li>
                             <NavLink to="/admindashboard" className="px-4 py-2 text-gray-700 hover:bg-gray-100">Admin Dashboard</NavLink>
+                        </li>
+                        <li>
+                            <NavLink to="/userbookings" className="px-4 py-2 text-gray-700 hover:bg-gray-100">User Bookings</NavLink>
+                        </li>
+                        <li>
+                            <NavLink to="/manifest" className="px-4 py-2 text-gray-700 hover:bg-gray-100">Manifest</NavLink>
                         </li>
                         <li>
                             <NavLink to="/editflight" className="px-4 py-2 text-gray-700 hover:bg-gray-100">Edit Flight</NavLink>

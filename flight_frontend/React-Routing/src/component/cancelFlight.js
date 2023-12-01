@@ -70,7 +70,7 @@ const FlightCancellation = () => {
             setLoading(true);
             const response = await axios.post('http://localhost:8081/api/user/cancel_ticket', {
                 pnr: selectedBooking.pnr,
-                // Add other required properties
+
             });
 
             if (response.status === 200) {

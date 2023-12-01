@@ -16,6 +16,8 @@ import AddFlight from "./component/AddFlight";
 import EditFlight from "./component/EditFlight";
 import DeleteFlight from "./component/DeleteFlight";
 import CancelFlight from "./component/cancelFlight";
+import UserBookings from "./component/UserBookings";
+import Manifest from "./component/manifest";
 // Import AdminDashboard component
 // import AdminDashboard from "./component/AdminDashboard";
 
@@ -65,7 +67,10 @@ function App() {
                         <Route path="/addflight" element={<AddFlight />} />
                         <Route path="/editflight" element={<EditFlight />} />
                         <Route path="/deleteflight" element={<DeleteFlight />} />
+                        <Route path="/userbookings" element={<UserBookings />} />
+                        <Route path="/manifest" element={<Manifest />} />
                         <Route path="/admindashboard" element={<AdminDashboard />} />
+
                     </>
 
                 )}

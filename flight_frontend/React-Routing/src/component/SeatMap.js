@@ -129,15 +129,15 @@ const SeatMap = ({ classes }) => {
             return <Typography variant="body1">No seat data available.</Typography>;
         }
 
-        const sections = ['Business', 'Comfort', 'Ordinary'];
+        const sections = ['Ordinary', 'Comfort', 'Business'];
 
         const getSectionColor = (sectionType) => {
             switch (sectionType) {
-                case 'Business':
-                    return '#FFD700'; // Gold
-                case 'Comfort':
-                    return '#87CEEB'; // Sky Blue
                 case 'Ordinary':
+                    return '#FFD700'; // Gold
+                case 'Business':
+                    return '#87CEEB'; // Sky Blue
+                case 'Comfort':
                     return '#98FB98'; // Pale Green
                 default:
                     return '#FFF'; // Default White
