@@ -46,7 +46,7 @@ function Navbar() {
                 {isAdmin && (
                     <>
                         <li>
-                            <NavLink to="/admin" className="px-4 py-2 text-gray-700 hover:bg-gray-100">Admin</NavLink>
+                            <NavLink to="/admindashboard" className="px-4 py-2 text-gray-700 hover:bg-gray-100">Admin Dashboard</NavLink>
                         </li>
                         <li>
                             <NavLink to="/logout" className="px-4 py-2 text-gray-700 hover:bg-gray-100">Logout</NavLink>

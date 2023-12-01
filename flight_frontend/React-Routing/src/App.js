@@ -10,6 +10,7 @@ import SignUpForm from "./component/Signup";
 import Payment from "./component/Payment";
 import SearchFlight from "./component/SearchFlight.js";
 import AdminLogin from "./component/adminlogin"; // Import AdminLogin component
+import AdminDashboard from './component/admindashboard.js';
 // Import AdminDashboard component
 // import AdminDashboard from "./component/AdminDashboard";
 
@@ -53,7 +54,8 @@ function App() {
                 <Route path="/adminlogin" element={<AdminLogin setIsAdmin={setIsAdmin} />} />               
                 {isAdmin && (
                     // Add conditional section for admins
-                    <Route path="/" element={<Home />} />
+                    
+                    <Route path="/admindashboard" element={<AdminDashboard />} />
                 )}
             </Routes>
         </>

@@ -1,64 +1,101 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { TextField, Button, Typography, Paper, makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    height: '100vh',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+
+  },
+  paper: {
+    padding: theme.spacing(4),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    width: '100%',
+    maxWidth: 400,
+  },
+  textField: {
+    margin: theme.spacing(1),
+  },
+  button: {
+    margin: theme.spacing(2, 0),
+  },
+}));
 
 const AdminLogin = ({ setIsAdmin }) => {
-    let navigate = useNavigate();
+  const classes = useStyles();
+  let navigate = useNavigate();
 
-    const [formData, setFormData] = useState({
-        username: "",
-        password: "",
-    });
+  const [formData, setFormData] = useState({
+    username: '',
+    password: '',
+  });
 
-    const { username, password } = formData;
-    const [error, setError] = useState("");
+  const { username, password } = formData;
+  const [error, setError] = useState('');
 
-    const onInputChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
+  const onInputChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
-    const onSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await axios.post('http://localhost:8081/api/admin/admin_login', formData);
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:8081/api/admin/admin_login', formData);
 
-            if (response.data.status === 'success') {
-                // Admin authenticated successfully
-                // Store admin data in localStorage or context
-                localStorage.setItem('adminData', JSON.stringify(response.data.data));
-                setIsAdmin(true);
-                // Redirect to admin dashboard or update state
-                navigate("/"); // Redirect to admin dashboard on successful login
-            } else {
-                // Handle error
-                setError(response.data.message);
-            }
-        } catch (err) {
-            // Handle error
-            setError('An error occurred. Please try again.');
-        }
-    };
+      if (response.data.status === 'success') {
+        localStorage.setItem('adminData', JSON.stringify(response.data.data));
+        setIsAdmin(true);
+        navigate('/');
+      } else {
+        setError(response.data.message);
+      }
+    } catch (err) {
+      setError('An error occurred. Please try again.');
+    }
+  };
 
-    return (
+  return (
+    <div className={classes.root}>
+      <Paper elevation={3} className={classes.paper}>
+        <Typography variant="h5" gutterBottom>
+          Admin Login
+        </Typography>
         <form onSubmit={onSubmit}>
-            <input
-                type="text"
-                placeholder="Username"
-                name="username"
-                value={username}
-                onChange={onInputChange}
-            />
-            <input
-                type="password"
-                placeholder="Password"
-                name="password"
-                value={password}
-                onChange={onInputChange}
-            />
-            <button type="submit">Login</button>
-            {error && <p>{error}</p>}
+          <TextField
+            className={classes.textField}
+            variant="outlined"
+            label="Username"
+            name="username"
+            value={username}
+            onChange={onInputChange}
+            fullWidth
+            required
+          />
+          <TextField
+            className={classes.textField}
+            variant="outlined"
+            label="Password"
+            name="password"
+            type="password"
+            value={password}
+            onChange={onInputChange}
+            fullWidth
+            required
+          />
+          <Button className={classes.button} variant="contained" color="primary" type="submit" fullWidth>
+            Login
+          </Button>
+          {error && <Typography color="error">{error}</Typography>}
         </form>
-    );
+      </Paper>
+    </div>
+  );
 };
 
 export default AdminLogin;
