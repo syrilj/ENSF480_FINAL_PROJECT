@@ -193,7 +193,11 @@ public class AdminController {
 				.header("Action", "Action")
 				.body(adminBookingList);
 	}
-
+	@GetMapping("/admin_manifest")
+	public ResponseEntity<List<Bookings>> showAdminBookings() throws ParseException {
+		List<Bookings> bookingList = fservice.getAdminBooking_details();
+		return new ResponseEntity<>(bookingList, HttpStatus.OK);
+	}
 	@PostMapping("/logout")
 	public ResponseEntity<String> logoutAdmin( HttpSession session, SessionStatus status) {
 		status.setComplete();
@@ -206,6 +210,7 @@ public class AdminController {
 		session.invalidate();
 		return ResponseEntity.status(401).body("Please login first.");
 	}
+
 
 //	@ModelAttribute("admin")
 //	public Admin populateForm() {

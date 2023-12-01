@@ -20,4 +20,7 @@ public interface BookingsDao {
 	public void addTopnrCostData(String pnr_no, String cost);
 
 	void updateSeatNumberForPassenger(String p_pnr, String p_name, int p_seatno);
+
+
+
 }

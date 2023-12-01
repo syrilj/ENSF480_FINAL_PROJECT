@@ -190,15 +190,16 @@ public class UserController {
 
 //does not work need fixing
 	@GetMapping("/user_bookings")
-	public ResponseEntity<?> showUserBookings(@RequestParam String username) {
+	public ResponseEntity<?> showUserBookings(@RequestParam String pnr) {
+
 		LOGGER.info("Start");
 
 		try {
-			List<Bookings> bookingList = fservice.getUserBooking_details(username);
+			List<Bookings> bookingList = fservice.getUserBooking_details(pnr);
 
 			if (bookingList.isEmpty()) {
-				LOGGER.info("No bookings found for user: {}", username);
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No bookings found for the user: " + username);
+				LOGGER.info("No bookings found for user: {}", pnr);
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No bookings found for the user: " + pnr);
 			}
 
 			LOGGER.info("End");

@@ -22,10 +22,10 @@ const AdminManifest = () => {
             <Typography variant="h3" gutterBottom>
                 Browse Passenger List
             </Typography>
-            <Button variant="contained" color="primary" onClick={fetchAdminBookings}>
+            <Button variant="contained" color="primary" onClick={fetchAdminBookings} style={{ marginBottom: '20px' }}>
                 Fetch Passenger Manifest
             </Button>
-            {error && <Typography variant="body1" color="error">{error}</Typography>}
+            {error && <Typography variant="body1" color="error" style={{ marginBottom: '20px' }}>{error}</Typography>}
             {adminBookingList.length > 0 && (
                 <div>
                     <Typography variant="h6" gutterBottom>
