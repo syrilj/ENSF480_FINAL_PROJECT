@@ -131,7 +131,7 @@ public class UserController {
 				flightSearchForm.getTo(),
 				flightSearchForm.getDept_date()
 		);
-		LOGGER.info("End");
+		LOGGER.info("Made flight search result");
 		return ResponseEntity.ok(flights);
 	}
 	@GetMapping("/user_search_flight/{from}/{to}/{dept_date}")

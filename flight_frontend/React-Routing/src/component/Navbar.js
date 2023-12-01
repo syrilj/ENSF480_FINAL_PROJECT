@@ -47,6 +47,9 @@ function Navbar() {
                             <NavLink to="/SearchFlight" className="px-4 py-2 text-gray-700 hover:bg-gray-100">Search Flight</NavLink>
                         </li>
                         <li>
+                            <NavLink to="/bookflight" className="px-4 py-2 text-gray-700 hover:bg-gray-100">Book Flight</NavLink>
+                        </li>
+                        <li>
                             <NavLink to="/logout" className="px-4 py-2 text-gray-700 hover:bg-gray-100">Logout</NavLink>
                         </li>
                     </>

@@ -18,6 +18,7 @@ import DeleteFlight from "./component/DeleteFlight";
 import CancelFlight from "./component/cancelFlight";
 import UserBookings from "./component/UserBookings";
 import Manifest from "./component/manifest";
+import BookFlight from "./component/BookFlight";
 // Import AdminDashboard component
 // import AdminDashboard from "./component/AdminDashboard";
 
@@ -51,6 +52,7 @@ function App() {
                 <Route path="/SearchFlight" element={<SearchFlight />} />
                 <Route path="/searchResults" component={SearchResults} />
                 <Route path="/cancelflight" element={<CancelFlight />} />
+                <Route path ="/bookflight" element={<BookFlight />} />
 
 
                 <Route path="/logout" element={<Logout setIsAuthenticated={setIsAuthenticated} />} />
