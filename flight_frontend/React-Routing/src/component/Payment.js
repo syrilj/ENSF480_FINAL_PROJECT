@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import emailjs from 'emailjs-com';
+import { useNavigate } from 'react-router-dom';
 
 const PaymentPage = () => {
   const [cardNumber, setCardNumber] = useState('');
@@ -10,6 +11,7 @@ const PaymentPage = () => {
   const [error, setError] = useState(null);
   const [paymentSuccessful, setPaymentSuccessful] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log("Initializing EmailJS with User ID:", 's7TbZMeWWJU0mXJ7U'); // Replace with your Email.js user ID
@@ -63,6 +65,11 @@ const PaymentPage = () => {
       </div>
     );
   }
+
+  const handleContinueToRecipt = () => {
+    navigate('/Recipt');
+    console.log('Continue to Payment clicked!');
+};
 
   return (
     <div className="container">
@@ -141,6 +148,7 @@ const PaymentPage = () => {
           <button
             type="submit"
             className="mt-4 px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
+            onClick={handleContinueToRecipt}
           >
             Pay Now
           </button>

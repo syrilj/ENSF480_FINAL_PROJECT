@@ -19,6 +19,7 @@ import CancelFlight from "./component/cancelFlight";
 import UserBookings from "./component/UserBookings";
 import Manifest from "./component/manifest";
 import BookFlight from "./component/BookFlight";
+import Recipt from "./component/Recipt";
 // Import AdminDashboard component
 // import AdminDashboard from "./component/AdminDashboard";
 
@@ -49,6 +50,7 @@ function App() {
                
                 <Route path="/seatmap" element={<SeatMap />} />
                 <Route path="/payment" element={<Payment />} />
+                <Route path="/Recipt" element={<Recipt />} />
                 <Route path="/SearchFlight" element={<SearchFlight />} />
                 <Route path="/searchResults" component={SearchResults} />
                 <Route path="/cancelflight" element={<CancelFlight />} />
