@@ -1,12 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
+  Typography,
+  Grid,
   Paper,
   TextField,
   Button,
@@ -15,6 +11,12 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
 } from "@material-ui/core";
 import { useNavigate } from "react-router-dom";
 
@@ -30,7 +32,7 @@ const SearchFlights = ({ onSelectFlight }) => {
   const [loading, setLoading] = useState(false);
 
   const locations = ["Calgary", "Vancouver", "New York", "Los Angeles"];
-  const navigate = useNavigate(); // Move useNavigate outside of the event handler
+  const navigate = useNavigate();
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -59,22 +61,14 @@ const SearchFlights = ({ onSelectFlight }) => {
 
   const handleSelectFlight = (selectedFlight) => {
     try {
-      // Store the selected flight in local storage
       localStorage.setItem("selectedFlight", JSON.stringify(selectedFlight));
       console.log("Selected Flight:", selectedFlight);
-
-      // Navigate to the seat map page
-      // Replace the following line with your actual navigation logic
-      // For example, you can use react-router-dom or window.location.href
-      // For demonstration purposes, I'm using a console.log statement
       navigate("/seatmap");
-
       console.log("Navigating to Seat Map Page...");
     } catch (error) {
       console.error("Error while handling selected flight:", error);
     }
   };
-
 
   const handleChange = (e) => {
     setFlightSearchForm({
@@ -84,99 +78,127 @@ const SearchFlights = ({ onSelectFlight }) => {
   };
 
   return (
-      <div>
-        <h2>Search Flights</h2>
-        <form onSubmit={onSubmit}>
-          <FormControl>
-            <InputLabel htmlFor="from">From</InputLabel>
-            <Select
-                label="From"
-                id="from"
-                name="from"
-                value={flightSearchForm.from}
-                onChange={handleChange}
-                required
-            >
-              {locations.map((location) => (
-                  <MenuItem key={location} value={location}>
-                    {location}
-                  </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-
-          <FormControl>
-            <InputLabel htmlFor="to">To</InputLabel>
-            <Select
-                label="To"
-                id="to"
-                name="to"
-                value={flightSearchForm.to}
-                onChange={handleChange}
-                required
-            >
-              {locations.map((location) => (
-                  <MenuItem key={location} value={location}>
-                    {location}
-                  </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-
-          <TextField
-              label="Departure Date"
-              type="date"
-              id="dept_date"
-              name="dept_date"
-              value={flightSearchForm.dept_date}
-              onChange={handleChange}
-              required
-          />
-
-          <Button type="submit" variant="contained" color="primary" disabled={loading}>
-            {loading ? <CircularProgress size={24} /> : "Search Flights"}
-          </Button>
-        </form>
-
-        {/* Display Search Results */}
+      <Grid container spacing={4} justify="center">
+        <Grid item xs={12}>
+          <Typography variant="h4" align="center" gutterBottom>
+            Search Flights
+          </Typography>
+        </Grid>
+        <Grid item xs={12} sm={8}>
+          <Paper elevation={3} style={{ padding: 20 }}>
+            <form onSubmit={onSubmit}>
+              <Grid container spacing={3}>
+                <Grid item xs={12} sm={6}>
+                  <FormControl fullWidth>
+                    <InputLabel htmlFor="from">From</InputLabel>
+                    <Select
+                        label="From"
+                        id="from"
+                        name="from"
+                        value={flightSearchForm.from}
+                        onChange={handleChange}
+                        required
+                    >
+                      {locations.map((location) => (
+                          <MenuItem key={location} value={location}>
+                            {location}
+                          </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <FormControl fullWidth>
+                    <InputLabel htmlFor="to">To</InputLabel>
+                    <Select
+                        label="To"
+                        id="to"
+                        name="to"
+                        value={flightSearchForm.to}
+                        onChange={handleChange}
+                        required
+                    >
+                      {locations.map((location) => (
+                          <MenuItem key={location} value={location}>
+                            {location}
+                          </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                      fullWidth
+                      label="Departure Date"
+                      type="date"
+                      id="dept_date"
+                      name="dept_date"
+                      value={flightSearchForm.dept_date}
+                      onChange={handleChange}
+                      required
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Button
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                      disabled={loading}
+                      fullWidth
+                  >
+                    {loading ? <CircularProgress size={24} /> : "Search Flights"}
+                  </Button>
+                </Grid>
+              </Grid>
+            </form>
+          </Paper>
+        </Grid>
         {searchResults.length > 0 && (
-            <TableContainer component={Paper}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Flight Number</TableCell>
-                    <TableCell>From</TableCell>
-                    <TableCell>To</TableCell>
-                    <TableCell>Departure Date</TableCell>
-                    <TableCell>Action</TableCell> {/* New column for the action button */}
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {searchResults.map((flight) => (
-                      <TableRow key={flight.id}>
-                        <TableCell>{flight.flightno}</TableCell>
-                        <TableCell>{flight.from}</TableCell>
-                        <TableCell>{flight.to}</TableCell>
-                        <TableCell>{flight.dept_date}</TableCell>
-                        <TableCell>
-                          <Button
-                              variant="contained"
-                              color="primary"
-                              onClick={() => handleSelectFlight(flight)}
-                          >
-                            Select Flight
-                          </Button>
-                        </TableCell>
+            <Grid item xs={12} sm={8}>
+              <Paper elevation={3} style={{ padding: 20, marginTop: 20 }}>
+                <TableContainer component={Paper}>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Flight Number</TableCell>
+                        <TableCell>From</TableCell>
+                        <TableCell>To</TableCell>
+                        <TableCell>Departure Date</TableCell>
+                        <TableCell>Action</TableCell>
                       </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+                    </TableHead>
+                    <TableBody>
+                      {searchResults.map((flight) => (
+                          <TableRow key={flight.id}>
+                            <TableCell>{flight.flightno}</TableCell>
+                            <TableCell>{flight.from}</TableCell>
+                            <TableCell>{flight.to}</TableCell>
+                            <TableCell>{flight.dept_date}</TableCell>
+                            <TableCell>
+                              <Button
+                                  variant="contained"
+                                  color="primary"
+                                  onClick={() => handleSelectFlight(flight)}
+                              >
+                                Select Flight
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Paper>
+            </Grid>
         )}
-
-        {/* Display Error Message */}
-        {error && <p style={{ color: "red" }}>{error}</p>}
-      </div>
+        {error && (
+            <Grid item xs={12} sm={8}>
+              <Typography variant="body2" align="center" style={{ color: "red" }}>
+                {error}
+              </Typography>
+            </Grid>
+        )}
+      </Grid>
   );
 };
 
