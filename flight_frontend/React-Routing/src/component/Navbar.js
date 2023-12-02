@@ -1,9 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {NavLink, Route} from 'react-router-dom';
-import AddFlight from "./AddFlight";
-import EditFlight from "./EditFlight";
-import DeleteFlight from "./DeleteFlight";
-import AdminDashboard from "./admindashboard";
+import {NavLink} from 'react-router-dom';
 
 function Navbar() {
     // Use useEffect to log changes in isAuthenticated prop

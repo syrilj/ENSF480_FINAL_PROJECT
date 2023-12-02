@@ -6,7 +6,6 @@ import {
   ListItem,
   ListItemText,
   makeStyles,
-  Menu,
   MenuItem,
 } from '@material-ui/core';
 
