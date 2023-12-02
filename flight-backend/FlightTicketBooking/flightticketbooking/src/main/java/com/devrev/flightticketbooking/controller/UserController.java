@@ -246,16 +246,33 @@ public class UserController {
 	}
 
 	@PostMapping("/cancel_ticket")
-	public ResponseEntity<String> cancelUserBookings(@RequestBody Map<String, String> bookingData) throws ParseException {
-		LOGGER.info("Start");
-		String pnr = bookingData.get("pnr");
-		String p_name = bookingData.get("p_name");
-		String p_class = bookingData.get("p_class");
-		String flightno = bookingData.get("flightno");
-		fservice.cancelBooking(p_name, pnr, p_class, flightno);
-		LOGGER.info("End");
-		return ResponseEntity.ok("Airticket has been successfully cancelled");
+	public ResponseEntity<String> cancelUserBookings(@RequestBody Map<String, String> bookingData) {
+		try {
+			LOGGER.info("Start");
+
+			// Validate the presence of required fields
+			if (!bookingData.containsKey("pnr") || !bookingData.containsKey("p_name")
+					|| !bookingData.containsKey("p_class") || !bookingData.containsKey("flightno")) {
+				LOGGER.error("Incomplete booking data provided");
+				return ResponseEntity.badRequest().body("Incomplete booking data provided");
+			}
+
+			String pnr = bookingData.get("pnr");
+			String p_name = bookingData.get("p_name");
+			String p_class = bookingData.get("p_class");
+			String flightno = bookingData.get("flightno");
+
+			// Call your cancellation service
+			fservice.cancelBooking(p_name, pnr, p_class, flightno);
+
+			LOGGER.info("End");
+			return ResponseEntity.ok("Airticket has been successfully cancelled");
+		} catch (Exception e) {
+			LOGGER.error("An unexpected error occurred", e);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred");
+		}
 	}
+
 	@GetMapping("/show_user_details")
 	public ResponseEntity<User> showUserDetails(@RequestParam String username, @RequestParam String password) {
 		LOGGER.info("Start");
