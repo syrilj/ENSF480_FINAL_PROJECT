@@ -25,11 +25,8 @@ const Receipt = () => {
 
   // Generate a unique PNR
   const generateUniquePNR = () => {
-    const userPart = userData.u_name.substring(0, 2).toUpperCase();
-    const flightPart = flightNumber.substring(0, 2).toUpperCase();
-    const randomDigits = Math.floor(Math.random() * 100).toString().padStart(2, '0');
-
-    return `${userPart}${flightPart}${randomDigits}`;
+    const userPart = userData.u_name.substring(0, 3).toUpperCase();
+    return `${userPart}${"233"}`;
   };
 
   const uniquePNR = generateUniquePNR();

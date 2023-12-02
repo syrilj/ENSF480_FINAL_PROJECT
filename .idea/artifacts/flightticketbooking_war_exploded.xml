@@ -58,7 +58,7 @@
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/flight-backend/FlightTicketBooking/flightticketbooking/target/flightticketbooking-0.0.1-SNAPSHOT/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/flight-backend/flight-system/flightticketbooking/target/flightticketbooking-0.0.1-SNAPSHOT/META-INF/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="flightticketbooking/web/Web" />
     </root>

@@ -68,11 +68,8 @@ function BookFlight() {
             }
 
             const generateUniquePNR = () => {
-                const userPart = userData.u_name.substring(0, 2).toUpperCase();
-                const flightPart = flightNumber.substring(0, 2).toUpperCase();
-                const randomDigits = Math.floor(Math.random() * 100).toString().padStart(2, '0');
-
-                return `${userPart}${flightPart}${randomDigits}`;
+                const userPart = userData.u_name.substring(0, 3).toUpperCase();
+                return `${userPart}${"233"}`;
             };
 
             const uniquePNR = generateUniquePNR();
@@ -98,10 +95,11 @@ function BookFlight() {
                 p_status: flightData.status,
                 p_name: userData.u_name,
                 p_seatno: selectedSeat.seat,
-                p_sex: userData.p_sex,
+                p_sex: userData.u_gender,
                 p_class: selectedSeat.section,
                 pnr: uniquePNR,
-                p_email: userData.p_email,
+                p_email: userData.u_email_id,
+                p_age: "30",
                 cost: cost.toString(), // Convert cost to string before sending
             });
 
