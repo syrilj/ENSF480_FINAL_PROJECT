@@ -9,7 +9,7 @@ import Login from "./component/Login";
 import SignUpForm from "./component/Signup";
 import Payment from "./component/Payment";
 import SearchFlight from "./component/SearchFlight.js";
-import AdminLogin from "./component/adminlogin"; // Import AdminLogin component
+import AdminLogin from "./component/adminlogin";
 import AdminDashboard from './component/admindashboard.js';
 import SearchResults from "./component/SearchResults";
 import AddFlight from "./component/AddFlight";
@@ -20,8 +20,6 @@ import UserBookings from "./component/UserBookings";
 import Manifest from "./component/manifest";
 import BookFlight from "./component/BookFlight";
 import Recipt from "./component/Recipt";
-// Import AdminDashboard component
-// import AdminDashboard from "./component/AdminDashboard";
 
 function App() {
     const { isAuthenticated, checkAuthentication, setIsAuthenticated } = useAuthentication();

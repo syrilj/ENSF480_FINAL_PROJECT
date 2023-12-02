@@ -3,7 +3,6 @@ package com.devrev.flightticketbooking.model;
 import java.util.ArrayList;
 import java.util.List;
 
-
 class OrdinarySeatMapStrategy implements SeatMapStrategy {
     @Override
     public List<String> generateSeatMap(int numberOfSeats) {

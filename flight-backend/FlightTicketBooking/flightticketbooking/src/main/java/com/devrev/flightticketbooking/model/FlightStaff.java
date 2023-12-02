@@ -26,7 +26,6 @@ public class FlightStaff {
     }
 
     // Getters and setters for each attribute
-
     public String getName() {
         return name;
     }

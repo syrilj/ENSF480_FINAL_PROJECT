@@ -59,8 +59,6 @@ public class Bookings {
 		this.p_sex = p_sex2;
 		this.p_class = p_class2;
 		this.p_email = p_email2;
-
-		// TODO Auto-generated constructor stub
 	}
 
 	public String getP_name() {

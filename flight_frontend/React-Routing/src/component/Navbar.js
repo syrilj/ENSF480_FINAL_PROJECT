@@ -2,12 +2,10 @@ import React, {useEffect, useState} from 'react';
 import {NavLink} from 'react-router-dom';
 
 function Navbar() {
-    // Use useEffect to log changes in isAuthenticated prop
     const [isAuthenticated, setIsAuthenticated,isAdmin] = useAuthentication();
 
     useEffect(() => {
         console.log('Navbar - isAuthenticated changed:', isAuthenticated);
-        // Additional logic or updates based on isAuthenticated
     }, [isAuthenticated]);
 
     return (
@@ -106,10 +104,8 @@ function useAuthentication() {
             setIsAdmin(localStorage.getItem('adminData') !== null);
         };
 
-        // Check authentication status every second
         const intervalId = setInterval(handleStorageChange, 1000);
 
-        // Cleanup function
         return () => {
             clearInterval(intervalId);
             window.removeEventListener('storage', handleStorageChange);

@@ -42,7 +42,6 @@ const AddFlight = () => {
         }
     };
 
-
     const handleChange = (e) => {
         setFlightDetails({
             ...flightDetails,
@@ -90,7 +89,6 @@ const AddFlight = () => {
                     />
                 </div>
 
-
                 <div style={{ display: 'flex', flexDirection: 'row', gap: '20px' }}>
                     <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '5px' }}>
                         <label htmlFor="departureDate">Departure Date: </label>
@@ -117,7 +115,6 @@ const AddFlight = () => {
                     </div>
                 </div>
 
-
                 <div style={{ display: 'flex', flexDirection: 'row', gap: '52px' }}>
                     <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '5px' }}>
                         <label htmlFor="departureTime">Departure Time: </label>
@@ -143,7 +140,6 @@ const AddFlight = () => {
                         />
                     </div>
                 </div>
-
 
                 <div style={{ display: 'flex', flexDirection: 'row', gap: '5px' }}>
                     <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '5px' }}>

@@ -77,11 +77,9 @@ function BookFlight() {
 
             const uniquePNR = generateUniquePNR();
 
-            // Calculate the cost based on the selected seat
             let cost = 1000;
 
             if (travelInsurance) {
-                // Add 200 to the cost if travel insurance is selected
                 cost += 200;
             }
 

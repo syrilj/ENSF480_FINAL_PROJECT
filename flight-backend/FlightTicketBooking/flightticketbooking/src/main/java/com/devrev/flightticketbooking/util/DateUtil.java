@@ -15,7 +15,6 @@ public class DateUtil {
 			date1 = simpleDateFormat.parse(s);
 			return date1;
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

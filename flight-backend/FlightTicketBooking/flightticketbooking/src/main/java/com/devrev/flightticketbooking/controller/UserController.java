@@ -7,19 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.devrev.flightticketbooking.model.Bookings;
 import com.devrev.flightticketbooking.model.Flights;
@@ -27,7 +20,6 @@ import com.devrev.flightticketbooking.model.User;
 import com.devrev.flightticketbooking.service.FlightService;
 import com.devrev.flightticketbooking.service.LoginService;
 
-//@SessionAttributes({ "user" })
 @RestController
 @RequestMapping("/api/user")
 @CrossOrigin("http://localhost:3000")
@@ -88,30 +80,10 @@ public class UserController {
 		}
 	}
 
-
-
-//	@ModelAttribute("user")
-//	public User populateForm() {
-//		return new User();
-//	}
-
 	@GetMapping("/user_rights")
 	public ResponseEntity<User> showUserRights(User user) {
 		return ResponseEntity.ok(user);
 	}
-
-//	@GetMapping("/user_search_flight")
-//	public ResponseEntity<ArrayList<Flights>> showFlightsSearched(
-//			@RequestParam String from,
-//			@RequestParam String to,
-//			@RequestParam String dept_date
-//	) {
-//		LOGGER.info("Start");
-//		ArrayList<Flights> flights = fservice.getUserFlight_details(from, to, dept_date);
-//		LOGGER.info("End");
-//		return ResponseEntity.ok(flights);
-//	}
-
 
 	@GetMapping("/{flightNumber}")
 	public ResponseEntity<Flights> getFlightDetails(@PathVariable String flightNumber) {
@@ -123,6 +95,7 @@ public class UserController {
 			return ResponseEntity.notFound().build();
 		}
 	}
+
 	@PostMapping("/user_search_flight")
 	public ResponseEntity<ArrayList<Flights>> showFlightsSearched(@RequestBody Flights flightSearchForm) {
 		LOGGER.info("Start");
@@ -134,21 +107,17 @@ public class UserController {
 		LOGGER.info("Made flight search result");
 		return ResponseEntity.ok(flights);
 	}
+
 	@GetMapping("/user_search_flight/{from}/{to}/{dept_date}")
 	public ResponseEntity<ArrayList<Flights>> showFlightsSearched(
 			@PathVariable String from,
 			@PathVariable String to,
-			@PathVariable String dept_date
-	) {
+			@PathVariable String dept_date) {
 		LOGGER.info("Start");
 		ArrayList<Flights> flights = fservice.getUserFlight_details(from, to, dept_date);
 		LOGGER.info("End");
 		return ResponseEntity.ok(flights);
 	}
-
-
-
-
 
 	@GetMapping("/user_book_flight")
 	public ResponseEntity<String> showBookingPage(@ModelAttribute("flight") Flights flight,
@@ -157,9 +126,7 @@ public class UserController {
 	}
 
 	@PostMapping("/user_book_flight")
-	public ResponseEntity<String> addPassenger(@RequestBody Map<String, String> passengerData
-											  ) {
-
+	public ResponseEntity<String> addPassenger(@RequestBody Map<String, String> passengerData) {
 		String p_fno = passengerData.get("p_fno");
 		String p_from = passengerData.get("p_from");
 		String p_to = passengerData.get("p_to");
@@ -188,7 +155,6 @@ public class UserController {
 		}
 	}
 
-//does not work need fixing
 	@GetMapping("/user_bookings")
 	public ResponseEntity<?> showUserBookings(@RequestParam String pnr) {
 
@@ -209,7 +175,6 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error retrieving user bookings.");
 		}
 	}
-
 
 	@PostMapping("/user_bookings")
 	public ResponseEntity<Map<String, Object>> showUserBookings(@RequestBody Map<String, String> bookingData) throws ParseException {
@@ -296,6 +261,7 @@ public class UserController {
 		LOGGER.info("End");
 		return ResponseEntity.ok(updatedUser);
 	}
+
 	@GetMapping("/user_edit_details")
 	public ResponseEntity<String> showEditDetailsForm(@RequestParam String username) {
 		return ResponseEntity.ok("user_edit_details");
@@ -314,18 +280,14 @@ public class UserController {
 		LOGGER.info("Start");
 		String pnr_no = paymentData.get("pnr_no");
 		String cost = paymentData.get("cost");
-		// Here you can add the logic to confirm the payment and send the mail
 		LOGGER.info("End");
 		return ResponseEntity.ok("Ticket Booked Successfully! You can check in Manage Bookings.");
 	}
+
 	@GetMapping("/flight_seat_map/{flightNumber}")
 	public ResponseEntity<Map<String, Object>> getFlightSeatMapWithPrices(@PathVariable String flightNumber) {
 		LOGGER.info("Start");
-
-		// Assuming your FlightService has a method to get the list of flight details
 		ArrayList<Flights> flightsList = fservice.getFlight_details();
-
-		// Find the specific flight with the matching flight number
 		Flights flight = null;
 		for (Flights f : flightsList) {
 			if (f.getFlightno().equals(flightNumber)) {
@@ -338,13 +300,11 @@ public class UserController {
 			return ResponseEntity.notFound().build();
 		}
 
-		// Instead of seat type strings, use the number of seats in each section
 		List<Integer> seatMap = new ArrayList<>();
 		seatMap.add(flight.getE_seats_left()); // Ordinary seats count
 		seatMap.add(flight.getC_seats_left()); // Comfort seats count
 		seatMap.add(flight.getB_seats_left()); // Business seats count
 
-		// Calculate prices for each seat type using existing functions in Flights class
 		Map<String, Float> seatPrices = new HashMap<>();
 		seatPrices.put("Ordinary", flight.getE_seat_price());
 		seatPrices.put("Comfort", flight.getB_seat_price() * 1.4f); // Assuming Comfort seat is 40% more than Ordinary
@@ -365,7 +325,6 @@ public class UserController {
 			String p_name = (String) payload.get("p_name");
 			int p_seatno = (int) payload.get("p_seatno");
 
-			// Assuming you have a service class to handle business logic
 			fservice.updateSeatNumberForPassenger(p_pnr, p_name, p_seatno);
 			return ResponseEntity.ok("Seat selection successful");
 		} catch (Exception e) {
@@ -373,19 +332,13 @@ public class UserController {
 		}
 	}
 
-
-
-
 	@GetMapping("/finish")
 	public ResponseEntity<String> logoutUser(@RequestParam String username) {
-		// This logic needs to be done on the fronedn side to complete later
 		return ResponseEntity.ok("User logged out successfully");
 	}
 
-
 	@ExceptionHandler(value = Exception.class)
 	public ResponseEntity<String> exceptionHandlerGeneric() {
-		//  logic to handle exceptions make seperate into seprate class depending
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred. Please login first or register if you are a new user");
 	}
 }

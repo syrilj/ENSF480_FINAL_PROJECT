@@ -107,7 +107,6 @@ public class BookingsDaoImpl implements BookingsDao {
 			e.printStackTrace();
 		}
 
-		// Update seat count based on class
 		if (p_class.equals("Ordinary")) {
 			final String seatupdatequery = "update flight_details set e_seats_left=e_seats_left-1 where flightno=?";
 			try {
@@ -139,7 +138,6 @@ public class BookingsDaoImpl implements BookingsDao {
 
 		return cost;
 	}
-
 
 	@Override
 	public ArrayList<Bookings> showUserBookings(String pnr) {
@@ -216,8 +214,6 @@ public class BookingsDaoImpl implements BookingsDao {
 		}
 		return Booking_list;
 	}
-
-
 
 	@Override
 	public void cancelBooking(String name, String pnr, String cclass, String flightno) {

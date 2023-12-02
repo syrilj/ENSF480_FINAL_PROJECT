@@ -23,7 +23,6 @@ import com.devrev.flightticketbooking.model.Flights;
 import com.devrev.flightticketbooking.service.FlightService;
 import com.devrev.flightticketbooking.service.LoginService;
 
-// @SessionAttributes({ "admin" })
 @RestController
 @RequestMapping("/api/admin")
 @CrossOrigin("http://localhost:3000")
@@ -46,7 +45,6 @@ public class AdminController {
         return ResponseEntity.ok("welcome");
     }
 
-
 	@PostMapping("/admin_login")
 	public ResponseEntity<Map<String, Object>> validateAdmin(@RequestBody Map<String, String> adminData) {
 		String username = adminData.get("username");
@@ -66,9 +64,6 @@ public class AdminController {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
 		}
 	}
-
-
-
 
 	@GetMapping("/admin_rights")
 	public ResponseEntity<Admin> showAdminRights(Admin admin) {
@@ -101,10 +96,10 @@ public class AdminController {
 				flightDetails.get("dept_time"),
 				flightDetails.get("arr_time"),
 				Integer.parseInt(flightDetails.get("e_seats_left")),
-				Integer.parseInt(flightDetails.get("c_seats_left")),  // Add Comfort class seats parameter
+				Integer.parseInt(flightDetails.get("c_seats_left")),
 				Integer.parseInt(flightDetails.get("b_seats_left")),
 				Float.parseFloat(flightDetails.get("e_seat_price")),
-				Float.parseFloat(flightDetails.get("c_seat_price")),  // Add Comfort class price parameter
+				Float.parseFloat(flightDetails.get("c_seat_price")),
 				Float.parseFloat(flightDetails.get("b_seat_price")),
 				flightDetails.get("flight_company"),
 				flightDetails.get("status")
@@ -149,9 +144,6 @@ public class AdminController {
 	@GetMapping("/delete_flight_details")
 	public ResponseEntity<String> showDeletingFlightDetail() {
 		LOGGER.info("Start");
-
-		// Additional logic related to showing details can be added here if needed
-
 		LOGGER.info("End");
 		return ResponseEntity.ok("Viewing details for deleting flight");
 	}
@@ -166,10 +158,6 @@ public class AdminController {
 		LOGGER.info("End");
 		return ResponseEntity.ok("Flight details deleted successfully");
 	}
-
-
-
-
 
 
 	@PostMapping("/admin_view_booking_details")
@@ -193,11 +181,13 @@ public class AdminController {
 				.header("Action", "Action")
 				.body(adminBookingList);
 	}
+
 	@GetMapping("/admin_manifest")
 	public ResponseEntity<List<Bookings>> showAdminBookings() throws ParseException {
 		List<Bookings> bookingList = fservice.getAdminBooking_details();
 		return new ResponseEntity<>(bookingList, HttpStatus.OK);
 	}
+	
 	@PostMapping("/logout")
 	public ResponseEntity<String> logoutAdmin( HttpSession session, SessionStatus status) {
 		status.setComplete();
@@ -210,11 +200,4 @@ public class AdminController {
 		session.invalidate();
 		return ResponseEntity.status(401).body("Please login first.");
 	}
-
-
-//	@ModelAttribute("admin")
-//	public Admin populateForm() {
-//		return new Admin(); // populates form for the first time if its null
-//	}
-
 }
