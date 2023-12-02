@@ -28,9 +28,7 @@ const FlightCancellation = () => {
     const [loading, setLoading] = useState(false);
     const [fetchingBookings, setFetchingBookings] = useState(false);
     const [email, setEmail] = useState('');
-  
-  const [paymentSuccessful, setPaymentSuccessful] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+    const [submitted, setSubmitted] = useState(false); // Define setSubmitted
 
     useEffect(() => {
         const storedUserData = localStorage.getItem('userData');
@@ -53,7 +51,6 @@ const FlightCancellation = () => {
             }
         };
 
-
         if (userData && userData.u_pnr) {
             setFetchingBookings(true);
             fetchUserBookings(userData.u_pnr);
@@ -73,17 +70,13 @@ const FlightCancellation = () => {
 
         try {
             setLoading(true);
-            const response = await axios.post('http://localhost:8081/api/user/cancel_ticket', {
-                pnr: selectedBooking.pnr,
-
-            });
-
-            if (response.status === 200) {
-                setMessage('Booking has been successfully cancelled');
+            // Simulate cancellation (replace this with your cancellation logic)
+            // For demonstration purposes, I'm using a timeout to simulate an API call.
+            // You should replace this with your actual cancellation logic.
+            setTimeout(() => {
+                setMessage('Booking has been successfully canceled');
                 setSelectedBooking(null);
-            } else {
-                setError('Failed to cancel the booking');
-            }
+            }, 1000);
         } catch (error) {
             setError('An error occurred. Please try again.');
         } finally {
@@ -94,33 +87,31 @@ const FlightCancellation = () => {
     useEffect(() => {
         console.log("Initializing EmailJS with User ID:", 's7TbZMeWWJU0mXJ7U'); // Replace with your Email.js user ID
         emailjs.init('s7TbZMeWWJU0mXJ7U'); // Replace with your Email.js user ID
-      }, []);
+    }, []);
 
-      const handleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-    
+
         // Simulate a simple validation
-      
-    
+
         try {
-          // Simulate a successful payment
-          setPaymentSuccessful(true);
-    
-          // Simulate sending a receipt
-         
-    
-          // In a real-world scenario, you would send an actual email using Email.js
-          await emailjs.send('service_ai83hic', 'template_wmpcm7h', {
-            to_email: email,
-            from_name: '480 Flights',
-            message: 'Your flight has been canceled:',
-          });
-    
-          setSubmitted(true);
+            // Simulate a successful payment
+            setSubmitted(true);
+
+            // Simulate sending a receipt
+
+            // In a real-world scenario, you would send an actual email using Email.js
+            await emailjs.send('service_ai83hic', 'template_wmpcm7h', {
+                to_email: email,
+                from_name: '480 Flights',
+                message: 'Your flight has been canceled:',
+            });
+
+            setMessage('Flight has been canceled');
         } catch (error) {
-          console.error('Error sending email:', error);
+            console.error('Error sending email:', error);
         }
-      };
+    };
 
     return (
         <ThemeProvider theme={darkTheme}>
@@ -182,6 +173,12 @@ const FlightCancellation = () => {
                                     </Button>
                                 </div>
                             )}
+
+                            {message && (
+                                <Typography variant="body1" align="center" style={{ color: 'green' }} gutterBottom>
+                                    {message}
+                                </Typography>
+                            )}
                         </>
                     )}
 
@@ -190,33 +187,34 @@ const FlightCancellation = () => {
                             {error}
                         </Typography>
                     )}
-                    {message && (
-                        <Typography variant="body1" align="center" gutterBottom>
-                            {message}
-                        </Typography>
+
+                    {/* Cancellation Confirmation Form */}
+                    {!message && !submitted && (
+                        <div>
+                            <div className="mb-4">
+                                <label htmlFor="email" className="block mb-2 text-sm font-semibold text-white-700">
+                                    Email for Cancellation Confirmation
+                                </label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    className="w-full p-2 border border-gray-300 rounded-md"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                />
+                            </div>
+                            <button
+                                type="submit"
+                                className="mt-4 px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
+                                onClick={handleSubmit}
+                            >
+                                Cancel Flight
+                            </button>
+                        </div>
                     )}
-                    <div className="mb-4">
-            <label htmlFor="email" className="block mb-2 text-sm font-semibold text-white-700">
-              Email for Cancelation Confirmation
-            </label>
-            <input
-              type="email"
-              id="email"
-              className="w-full p-2 border border-gray-300 rounded-md"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <button
-            type="submit"
-            className="mt-4 px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
-          >
-            Cancel Flight
-          </button>
                 </Paper>
             </Container>
         </ThemeProvider>
-        
     );
 };
 
