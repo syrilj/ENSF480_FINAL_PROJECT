@@ -17,7 +17,7 @@ function Navbar() {
     return (
         <nav className="flex items-center justify-between px-4 py-2 border-b shadow-lg">
             <div className="text-lg font-bold">
-                <NavLink to="/">480- Software Principles</NavLink>
+                <NavLink to="/">480 Software Principles</NavLink>
             </div>
             <div className="md:hidden text-gray-500 cursor-pointer">
                 <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 fill-current" viewBox="0 0 24 24">
