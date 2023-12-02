@@ -5,20 +5,14 @@ public class Admin {
 	String username;
 	String password;
 
-
-
-
-
-
 	public Admin() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public Admin(String username, String password, String a_email) {
 		super();
 		this.username = username;
 		this.password = password;
-
 	}
 
 	public String getUsername() {

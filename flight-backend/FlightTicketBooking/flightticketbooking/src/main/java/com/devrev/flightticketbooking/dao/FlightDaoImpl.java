@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -34,10 +33,10 @@ public class FlightDaoImpl implements FlightDao {
 			stmt.setString(6, dept_time);
 			stmt.setString(7, arr_time);
 			stmt.setInt(8, e_seats_left);
-			stmt.setInt(9, c_seats_left); // Comfort class seats parameter
+			stmt.setInt(9, c_seats_left);
 			stmt.setInt(10, b_seats_left);
 			stmt.setFloat(11, e_seat_price);
-			stmt.setFloat(12, c_seat_price); // Comfort class price parameter
+			stmt.setFloat(12, c_seat_price);
 			stmt.setFloat(13, b_seat_price);
 			stmt.setString(14, flight_company);
 			stmt.setString(15, status);
@@ -65,10 +64,10 @@ public class FlightDaoImpl implements FlightDao {
 				String dept_time = rs.getString("departure_time");
 				String arr_time = rs.getString("arrival_time");
 				int e_seats_left = rs.getInt("e_seats_left");
-				int c_seats_left = rs.getInt("c_seats_left"); // Assuming you added Comfort class seats column
+				int c_seats_left = rs.getInt("c_seats_left");
 				int b_seats_left = rs.getInt("b_seats_left");
 				float e_seat_price = rs.getFloat("e_price");
-				float c_seat_price = rs.getFloat("c_price"); // Assuming you added Comfort class price column
+				float c_seat_price = rs.getFloat("c_price");
 				float b_seat_price = rs.getFloat("b_price");
 				String flight_company = rs.getString("flight_company");
 				String status = rs.getString("status");
@@ -81,7 +80,6 @@ public class FlightDaoImpl implements FlightDao {
 		}
 		return Flights_list;
 	}
-
 
 	@Override
 	public Flights getFlight(String flightno) {
@@ -100,10 +98,10 @@ public class FlightDaoImpl implements FlightDao {
 				String dept_time = rs.getString("departure_time");
 				String arr_time = rs.getString("arrival_time");
 				int e_seats_left = rs.getInt("e_seats_left");
-				int c_seats_left = rs.getInt("c_seats_left"); // Assuming you added Comfort class seats column
+				int c_seats_left = rs.getInt("c_seats_left");
 				int b_seats_left = rs.getInt("b_seats_left");
 				float e_seat_price = rs.getFloat("e_price");
-				float c_seat_price = rs.getFloat("c_price"); // Assuming you added Comfort class price column
+				float c_seat_price = rs.getFloat("c_price");
 				float b_seat_price = rs.getFloat("b_price");
 				String flight_company = rs.getString("flight_company");
 				String status = rs.getString("status");
@@ -115,7 +113,6 @@ public class FlightDaoImpl implements FlightDao {
 		}
 		return flight;
 	}
-
 
 	@Override
 	public void updateFlight(Flights flight) {

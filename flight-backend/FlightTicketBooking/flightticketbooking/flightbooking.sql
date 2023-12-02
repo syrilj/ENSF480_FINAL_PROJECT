@@ -115,7 +115,12 @@ CREATE TABLE passenger_details (
   PRIMARY KEY (p_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
+INSERT INTO passenger_details (p_id, p_pnr, p_name, p_age, p_sex, p_fno, p_from, p_to, p_dedate, p_ardate, p_detime, p_artime, p_status, p_class, p_seatno, p_email, p_bookingdate)
+VALUES
+(1, 'PNR123', 'John Doe', '30', 'Male', 'F101', 'CityA', 'CityB', '2023-01-15', '2023-01-16', '10:00 AM', '12:00 PM', 'Confirmed', 'Economy', 23, 'john.doe@email.com', '2023-01-05'),
+(2, 'PNR456', 'Jane Smith', '25', 'Female', 'F202', 'CityC', 'CityD', '2023-02-20', '2023-02-21', '02:30 PM', '04:30 PM', 'Pending', 'Business', 7, 'jane.smith@email.com', '2023-02-10'),
+(3, 'PNR789', 'Bob Johnson', '45', 'Male', 'F303', 'CityX', 'CityY', '2023-03-10', '2023-03-11', '08:45 AM', '10:45 AM', 'Confirmed', 'FirstClass', 1, 'bob.johnson@email.com', '2023-02-28'),
+(4, 'PNR101', 'Alice Brown', '28', 'Female', 'F404', 'CityM', 'CityN', '2023-04-05', '2023-04-06', '05:15 PM', '07:15 PM', 'Cancelled', 'Economy', 14, 'alice.brown@email.com', '2023-03-25');
 
 -- Modify auto-increment for passenger details table
 ALTER TABLE passenger_details MODIFY p_id INT NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;

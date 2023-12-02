@@ -21,10 +21,6 @@ const Logout = ({ isAuthenticated, setIsAuthenticated }) => {
 
     const handleLogout = async () => {
         try {
-            // You can make a logout API request here if needed
-            // Example: await axios.post('/logout');
-
-
             // Remove user data from localStorage
             localStorage.removeItem("selectedFlight");
             localStorage.removeItem("userData");

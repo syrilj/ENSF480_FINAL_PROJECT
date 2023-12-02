@@ -13,7 +13,6 @@ public class ConnectionHandler {
 
 	// Private constructor to prevent instantiation from outside
 	private ConnectionHandler() {
-		// Initialize the connection
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			connection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);

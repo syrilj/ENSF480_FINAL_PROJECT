@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Flights {
-	// Use the strategy
 	private SeatMapStrategy ordinarySeatMapStrategy = new OrdinarySeatMapStrategy();
 	private SeatMapStrategy comfortSeatMapStrategy = new ComfortSeatMapStrategy();
 	private SeatMapStrategy businessClassSeatMapStrategy = new BusinessClassSeatMapStrategy();
@@ -146,7 +145,6 @@ public class Flights {
 		this.status = status;
 	}
 
-//Strategy design pattern
 	public List<String> getSeatMap() {
 		List<String> seatMap = new ArrayList<>();
 

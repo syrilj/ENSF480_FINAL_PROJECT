@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
     top: '100%',
     left: 0,
     zIndex: 1,
-    backgroundColor: theme.palette.primary.dark, // Set your dark color
+    backgroundColor: theme.palette.primary.dark,
     padding: theme.spacing(1),
     borderRadius: theme.spacing(1),
   },
