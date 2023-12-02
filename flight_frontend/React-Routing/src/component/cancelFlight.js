@@ -197,7 +197,7 @@ const FlightCancellation = () => {
                     )}
                     <div className="mb-4">
             <label htmlFor="email" className="block mb-2 text-sm font-semibold text-white-700">
-              Email for Recipt
+              Email for Cancelation Confirmation
             </label>
             <input
               type="email"
