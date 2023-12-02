@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import emailjs from 'emailjs-com';
 import {
     Button,
     Select,
@@ -26,6 +27,10 @@ const FlightCancellation = () => {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const [fetchingBookings, setFetchingBookings] = useState(false);
+    const [email, setEmail] = useState('');
+  
+  const [paymentSuccessful, setPaymentSuccessful] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
     useEffect(() => {
         const storedUserData = localStorage.getItem('userData');
@@ -85,6 +90,37 @@ const FlightCancellation = () => {
             setLoading(false);
         }
     };
+
+    useEffect(() => {
+        console.log("Initializing EmailJS with User ID:", 's7TbZMeWWJU0mXJ7U'); // Replace with your Email.js user ID
+        emailjs.init('s7TbZMeWWJU0mXJ7U'); // Replace with your Email.js user ID
+      }, []);
+
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+    
+        // Simulate a simple validation
+      
+    
+        try {
+          // Simulate a successful payment
+          setPaymentSuccessful(true);
+    
+          // Simulate sending a receipt
+         
+    
+          // In a real-world scenario, you would send an actual email using Email.js
+          await emailjs.send('service_ai83hic', 'template_wmpcm7h', {
+            to_email: email,
+            from_name: '480 Flights',
+            message: 'Your flight has been canceled:',
+          });
+    
+          setSubmitted(true);
+        } catch (error) {
+          console.error('Error sending email:', error);
+        }
+      };
 
     return (
         <ThemeProvider theme={darkTheme}>
@@ -159,9 +195,28 @@ const FlightCancellation = () => {
                             {message}
                         </Typography>
                     )}
+                    <div className="mb-4">
+            <label htmlFor="email" className="block mb-2 text-sm font-semibold text-white-700">
+              Email for Recipt
+            </label>
+            <input
+              type="email"
+              id="email"
+              className="w-full p-2 border border-gray-300 rounded-md"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <button
+            type="submit"
+            className="mt-4 px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
+          >
+            Cancel Flight
+          </button>
                 </Paper>
             </Container>
         </ThemeProvider>
+        
     );
 };
 
