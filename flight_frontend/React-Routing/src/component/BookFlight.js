@@ -33,6 +33,9 @@ function BookFlight() {
     const [selectedFlightData, setSelectedFlightData] = useState(null);
     const [travelInsurance, setTravelInsurance] = useState(false);
 
+    const [promo, setPromo] = useState('');
+    const promo_code = "promo100";
+
     useEffect(() => {
         const storedUserData = localStorage.getItem('userData');
         const storedSelectedFlightData = localStorage.getItem('selectedFlight');
@@ -80,6 +83,10 @@ function BookFlight() {
             if (travelInsurance) {
                 // Add 200 to the cost if travel insurance is selected
                 cost += 200;
+            }
+
+            if (promo === promo_code){
+                cost -= 100;
             }
 
             const response = await axios.post('http://localhost:8081/api/user/user_book_flight', {
@@ -152,6 +159,17 @@ function BookFlight() {
                 label="Add Travel Insurance ($200)"
                 style={{ marginBottom: '20px' }}
             />
+
+            <div>
+                <label>
+                    Input a Promo Code:
+                </label>
+
+                <input type="text" 
+                        onChange={(e) => setPromo(e.target.value)}
+                        placeholder='Promo Code'>
+                </input>
+            </div>
 
             <Button
                 variant="contained"

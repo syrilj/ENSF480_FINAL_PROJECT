@@ -134,3 +134,18 @@ INSERT INTO PNR (PNR_NO, TOTAL_AMOUNT) VALUES
 ('PNR789', 1200.25),
 ('PNR101', 600.00),
 ('PNR202', 950.75);
+
+-- Create Promo Table
+CREATE TABLE promo_codes(
+	promo_code VARCHAR(20),
+    promo_value DOUBLE
+);
+
+INSERT INTO promo_codes (promo_code, promo_value) VALUES
+('promo1', 300),
+('promo2', 100);
+
+
+
+
+
