@@ -131,7 +131,7 @@ const PaymentPage = () => {
 
           <div className="mb-4">
             <label htmlFor="email" className="block mb-2 text-sm font-semibold text-gray-700">
-              Email
+              Email for Recipt
             </label>
             <input
               type="email"
