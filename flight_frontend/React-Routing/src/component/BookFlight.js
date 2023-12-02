@@ -1,13 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Typography, Button } from '@material-ui/core';
-import {useNavigate} from "react-router-dom";
+import { Typography, Button, Checkbox, FormControlLabel } from '@material-ui/core';
+import { useNavigate } from 'react-router-dom';
 
 function FlightDetailsInput({ name, value, onChange }) {
     return (
-        <div>
-            <label>{name}:</label>
-            <input type="text" name={name} value={value} onChange={onChange} />
+        <div style={{ marginBottom: '20px' }}>
+            <label style={{ marginRight: '10px', fontWeight: 'bold' }}>{name}:</label>
+            <input
+                type="text"
+                name={name}
+                value={value}
+                onChange={onChange}
+                readOnly
+                style={{
+                    padding: '8px',
+                    borderRadius: '4px',
+                    border: '1px solid #ccc',
+                    width: '200px',
+                }}
+            />
         </div>
     );
 }
@@ -19,6 +31,7 @@ function BookFlight() {
     const [userData, setUserData] = useState(null);
     const [flightNumber, setFlightNumber] = useState('');
     const [selectedFlightData, setSelectedFlightData] = useState(null);
+    const [travelInsurance, setTravelInsurance] = useState(false);
 
     useEffect(() => {
         const storedUserData = localStorage.getItem('userData');
@@ -61,26 +74,31 @@ function BookFlight() {
 
             const uniquePNR = generateUniquePNR();
 
-            const response = await axios.post(
-                'http://localhost:8081/api/user/user_book_flight',
-                {
-                    p_fno: flightNumber,
-                    p_from: flightData.from,
-                    p_to: flightData.to,
-                    p_dedate: flightData.dept_date,
-                    p_ardate: flightData.arr_date,
-                    p_detime: flightData.dept_time,
-                    p_artime: flightData.arr_time,
-                    p_status: flightData.status,
-                    p_name: userData.u_name,
-                    p_seatno: selectedSeat.seat,
-                    p_sex: userData.p_sex,
-                    p_class: selectedSeat.section,
-                    pnr: uniquePNR,
-                    p_email: userData.p_email,
-                    cost: "1000",
-                }
-            );
+            // Calculate the cost based on the selected seat
+            let cost = 1000;
+
+            if (travelInsurance) {
+                // Add 200 to the cost if travel insurance is selected
+                cost += 200;
+            }
+
+            const response = await axios.post('http://localhost:8081/api/user/user_book_flight', {
+                p_fno: flightNumber,
+                p_from: flightData.from,
+                p_to: flightData.to,
+                p_dedate: flightData.dept_date,
+                p_ardate: flightData.arr_date,
+                p_detime: flightData.dept_time,
+                p_artime: flightData.arr_time,
+                p_status: flightData.status,
+                p_name: userData.u_name,
+                p_seatno: selectedSeat.seat,
+                p_sex: userData.p_sex,
+                p_class: selectedSeat.section,
+                pnr: uniquePNR,
+                p_email: userData.p_email,
+                cost: cost.toString(), // Convert cost to string before sending
+            });
 
             console.log('Response:', response);
 
@@ -88,12 +106,12 @@ function BookFlight() {
                 const updatedSelectedFlight = {
                     ...flightData,
                     pnr: uniquePNR,
-                    cost: response.data
+                    cost: response.data,
                 };
 
                 localStorage.setItem('selectedFlight', JSON.stringify(updatedSelectedFlight));
                 setTotalCost(response.data);
-                console.log(updatedSelectedFlight)
+                console.log(updatedSelectedFlight);
             } else {
                 console.log(response.data);
                 setErrorMessage(response.data);
@@ -101,19 +119,20 @@ function BookFlight() {
         } catch (error) {
             setErrorMessage('An error occurred while processing your request. Please try again.');
             console.error('Error:', error);
-            // ... (rest of your existing error handling code)
+
         }
     };
 
     const handleContinueToPayment = () => {
-
-        navigate("/Payment");
+        navigate('/Payment');
         console.log('Continue to Payment clicked!');
     };
 
     return (
-        <div>
-            <h1>Flight Booking</h1>
+        <div style={{ maxWidth: '600px', margin: 'auto', padding: '20px', textAlign: 'center' }}>
+            <Typography variant="h4" style={{ marginBottom: '20px' }}>
+                Flight Booking
+            </Typography>
 
             <FlightDetailsInput
                 name="Flight Number"
@@ -121,15 +140,46 @@ function BookFlight() {
                 onChange={(e) => setFlightNumber(e.target.value)}
             />
 
-            <Button variant="contained" color="primary" onClick={handleSubmit}>
+            {/* Add checkbox for travel insurance */}
+            <FormControlLabel
+                control={
+                    <Checkbox
+                        checked={travelInsurance}
+                        onChange={(e) => setTravelInsurance(e.target.checked)}
+                        color="primary"
+                    />
+                }
+                label="Add Travel Insurance ($200)"
+                style={{ marginBottom: '20px' }}
+            />
+
+            <Button
+                variant="contained"
+                color="primary"
+                onClick={handleSubmit}
+                style={{ marginRight: '10px' }}
+            >
                 Book Flight
             </Button>
 
-            {errorMessage && <Typography style={{ color: 'red' }}>{errorMessage}</Typography>}
-            {totalCost && <Typography>Total Cost: {totalCost}</Typography>}
+            {errorMessage && (
+                <Typography variant="body2" style={{ color: 'red', marginTop: '10px' }}>
+                    {errorMessage}
+                </Typography>
+            )}
+            {totalCost && (
+                <Typography variant="h6" style={{ marginTop: '10px' }}>
+                     {totalCost}
+                </Typography>
+            )}
 
             {totalCost && (
-                <Button variant="contained" color="primary" onClick={handleContinueToPayment}>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleContinueToPayment}
+                    style={{ marginTop: '20px' }}
+                >
                     Continue to Payment
                 </Button>
             )}

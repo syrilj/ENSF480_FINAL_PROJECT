@@ -78,7 +78,7 @@ const SearchFlights = ({ onSelectFlight }) => {
   };
 
   return (
-      <Grid container spacing={4} justify="center">
+      <Grid container spacing={3} justify="center">
         <Grid item xs={12}>
           <Typography variant="h4" align="center" gutterBottom>
             Search Flights
@@ -87,7 +87,7 @@ const SearchFlights = ({ onSelectFlight }) => {
         <Grid item xs={12} sm={8}>
           <Paper elevation={3} style={{ padding: 20 }}>
             <form onSubmit={onSubmit}>
-              <Grid container spacing={3}>
+              <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <FormControl fullWidth>
                     <InputLabel htmlFor="from">From</InputLabel>

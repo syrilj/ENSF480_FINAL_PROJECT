@@ -115,8 +115,7 @@ CREATE TABLE passenger_details (
   PRIMARY KEY (p_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Add primary key to passenger details table
-ALTER TABLE passenger_details ADD PRIMARY KEY (p_id);
+
 
 -- Modify auto-increment for passenger details table
 ALTER TABLE passenger_details MODIFY p_id INT NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
