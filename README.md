@@ -2,7 +2,9 @@ Flight Reservation Web Application
 ==================================
 
 Welcome to the Flight Reservation Web Application, a robust system meticulously developed as part of the term project for the Principles of Software Design course.
-This is a video demonstration of the application https://youtu.be/oa6mXv2vdnw?si=Qs3NsSgx9z3xkFos
+
+### Video demonstration of the application
+https://youtu.be/oa6mXv2vdnw?si=Qs3NsSgx9z3xkFos
 
 Project Overview
 ----------------
